@@ -55,6 +55,9 @@ int main()
   const GLubyte *version = glGetString(GL_VERSION);
   cout << "Driver OpenGL : " << version << endl;
 
+  // Compilation du shader program et generation de l ’ID du Shader
+  GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
+
   //==================================================
   // ToDo : Initialiser
   //==================================================
