@@ -40,3 +40,4 @@ TP1/models
 
 # macOS
 .DS_Store
+*.icloud
