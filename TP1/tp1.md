@@ -23,7 +23,7 @@ Tous les TPs utilisent les mêmes bibliothèques et se basent sur la même hiér
 - accédez à ce dossier: `cd ~/TP3D/`
 - récupérez/dézippez les fichiers externes et le TP1 :
 
-```
+```bash
 wget --user="cours_cg" --password="cours_cg" http://www-evasion.imag.fr/~Georges-Pierre.Bonneau/COURS_CG/TP/models.zip ;
 wget --user="cours_cg" --password="cours_cg" http://www-evasion.imag.fr/~Georges-Pierre.Bonneau/COURS_CG/TP/textures.zip ;
 unzip models.zip ;
@@ -36,14 +36,14 @@ unzip TP1.zip && rm -f TP1.zip ;
 - placez vous dans le répertoire TP1: `cd TP1`
 - créez des liens symboliques vers les fichiers externes:
 
-```
+```bash
 ln -s  ../models/ . ;
 ln -s  ../textures/ .
 ```
 
 - créez un dossier pour la compilation, accédez à ce dossier, lancez CMake, lancez la compilation
 
-```
+```bash
 mkdir  build ;
 cd build ;
 cmake .. ;
@@ -52,7 +52,7 @@ make ;
 
 Vous pouvez alors exécuter le programme:
 
-```
+```bash
 ./si_info4
 ```
 
@@ -64,7 +64,7 @@ Différentes méthodes existent pour dessiner un triangle avec OpenGL. La plus s
 
 Ce code est à mettre dans la boucle de rendu:
 
-```
+```c++
 glBegin (GL_TRIANGLES) ;
 glVertex3f( -0.5f, -0.5f , 0.0f );
 glVertex3f ( 0.5f, -0.5f, 0.0f );
@@ -89,7 +89,7 @@ Vertex Shader : Créez un fichier "vertex.glsl" dans un nouveau dossier nommé "
 
 
 
-```
+```c++
 // Version d'OpenGL
 #version 120
 
@@ -107,7 +107,7 @@ est un type GLSL contenant un vecteur de 3 composantes. Le type C++ `glm::vec3` 
 
 Fragment Shader : Créez un fichier `fragment.glsl` dans le dossier "shader/" contenant :
 
-```
+```c++
 // Version d’OpenGL
 
 #version 120
@@ -125,7 +125,7 @@ Ce Fragment Shader impose la couleur rouge à tout les fragments issus de la ras
 
 Utilisation : Les shaders sont écrits, il faut désormais les transmettre à la carte graphique, via le programme C++. Pour les initialiser, on rajoute ceci dans `main.cpp` :
 
-```
+```c++
 // Compilation du shader program et generation de l ’ID du Shader
 
 GLuint programID = LoadShaders( "../shader/vertex.glsl", "../shader/fragment.glsl");
@@ -134,7 +134,7 @@ GLuint programID = LoadShaders( "../shader/vertex.glsl", "../shader/fragment.gls
 
 Maintenant, avant de dessiner, il faut dire à OpenGL d’utiliser notre shader program:
 
-```
+```c++
 // On dit à OpenGL d’utiliser programID
 glUseProgram( program);
 ```
@@ -154,7 +154,7 @@ Dans les versions récentes d’OpenGL, elles sont encapsulées dans ce qu’on 
 
 Pour commencer, créez un nouveau Vertex Shader :
 
-```
+```c++
 // Version d’OpenGL
 #version 120
 
@@ -172,7 +172,7 @@ void main() {
 
 Ce shader prend en entrée un paramètre : vertex_position, que nous allons initialiser dans "main.cpp" avec un tableau de positions. Pour ce faire, on commence par créer ce tableau avec GLM dans l’initialisation de "main.cpp" :
 
-```
+```c++
 // Definition d’un vecteur
 vec3 v( -1.0f , -1.0f , 0.0f);
 
@@ -182,14 +182,14 @@ vec3 vertex[3]= { vec3( -0.5f, -0.5f, 0.0f), vec3( 0.5f, -0.5f, 0.0f )};
 
 Ensuite on accède à un ID nous permettant de localiser vertex_position:
 
-```
+```c++
 // Obtention de l'ID de l'attribut "vertex_position" dans programID
 GLuint vertexPositionID = glGetAttribLocation( programID, "vertex_position");
 ```
 
 Puis on copie les données sur la carte graphique. Ce code est à mettre dans l’initialisation :
 
-```
+```c++
 // Création d'un VAO et récupération de son ID
 GLuint vaoID;
 glGenVertexArrays( 1, &vaoID);
@@ -225,7 +225,7 @@ Ensuite dans la boucle de dessin on va dire à OpenGL de dessiner le contenu des
 
 
 
-```
+```c++
 glBindVertexArray( vaoID); // on active le VAO
 
 // on dessine le contenu de tous les VBOs associés à ce VAO
@@ -238,7 +238,7 @@ glBindVertexArray( 0); // on désactive le VAO
 
 A la fin du programme, on libère les buffers/objets :
 
-```
+```c++
 glDeleteBuffers (1, &vboID);
 glDeleteBuffers (1, &vaoID);
 ```
@@ -254,7 +254,7 @@ Faites une copie d’écran de chacun de vos résultats. Vous rassemblerez ces c
 - Tester la fonction :
   
 
-```
+```c++
 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 ```
 
@@ -268,7 +268,7 @@ Que se passe t-il ?
 - Essayer les différents types de primitives disponibles dans OpenGL, n’hésiter pas à modifier les sommets,
   à en rajouter ou en enlever pour mener à bien vos tests. La documentation se trouve sur le site http://www.opengl.org/sdk/docs/man2/.
 
-```
+```c++
 GL_POINTS
 GL_LINES
 GL_LINE_STRIP
