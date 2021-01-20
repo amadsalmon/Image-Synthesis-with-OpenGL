@@ -77,7 +77,14 @@ int main()
     //==================================================
     // ToDo : Dessiner
     //==================================================
-	  
+
+    glColor3f(0, 125, 0);
+    glBegin(GL_TRIANGLES);
+    glVertex3f(-0.5f, -0.5f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glEnd();
+
     // Echange des zones de dessin buffers
     glfwSwapBuffers(myWindow);
 
