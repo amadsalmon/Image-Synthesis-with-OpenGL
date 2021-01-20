@@ -102,8 +102,9 @@ void main() {
 }
 ```
 
-Ce Vertex Shader affecte à chaque sommet la position définie dans "main.cpp", grâce à la fonction `ftransform()` qui fait partie de GLSL. `vec3`
-est un type GLSL contenant un vecteur de 3 composantes. Le type C++ `glm::vec3` a été défini pour répliquer dans le langage C++ ce type GLSL.
+Ce Vertex Shader affecte à chaque sommet la position définie dans "main.cpp", grâce à la fonction `ftransform()` qui fait partie de GLSL.
+`vec3` est un type GLSL contenant un vecteur de 3 composantes.
+Le type C++ `glm::vec3` a été défini pour répliquer dans le langage C++ ce type GLSL.
 
 Fragment Shader : Créez un fichier `fragment.glsl` dans le dossier "shader/" contenant :
 
