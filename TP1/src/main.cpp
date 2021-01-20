@@ -63,6 +63,8 @@ int main()
 
   // Compilation du shader program et génération de l'ID du Shader
   GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
+  // Demande d'utiliser le program créé juste au-dessus.
+  glUseProgram(programID);
 
   // Definition de la couleur du fond
   glClearColor(0.0f, 0.0f, 0.3f, 0.0f);
