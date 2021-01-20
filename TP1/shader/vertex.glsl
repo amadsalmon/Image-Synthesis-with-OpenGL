@@ -1,4 +1,3 @@
-// Version d'OpenGL
 #version 120
 
 // Fonction appelee pour chaque sommet
