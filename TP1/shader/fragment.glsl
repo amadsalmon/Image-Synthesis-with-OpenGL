@@ -1,9 +1,7 @@
-#version 120
+#version 120 // Version d'OpenGL
 
-// Fonction appelee pour chaque fragment
-void main() {
-
+// Fonction appelée pour chaque fragment
+void main(){
     // Affectation de la couleur du fragment
-    gl_FragColor = vec4 (1.,0.,0.,1.);
-
+    gl_FragColor = vec4(1.,0.,0.,1.);
 }

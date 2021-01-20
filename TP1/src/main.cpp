@@ -55,14 +55,14 @@ int main()
   const GLubyte *version = glGetString(GL_VERSION);
   cout << "Driver OpenGL : " << version << endl;
 
-  // Compilation du shader program et generation de l ’ID du Shader
-  GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
-
   //==================================================
   // ToDo : Initialiser
   //==================================================
 
   cout << "Initialisations..." << endl;
+
+  // Compilation du shader program et génération de l'ID du Shader
+  GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
 
   // Definition de la couleur du fond
   glClearColor(0.0f, 0.0f, 0.3f, 0.0f);

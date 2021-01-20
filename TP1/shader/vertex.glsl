@@ -1,9 +1,7 @@
-#version 120
+#version 120 // Version d'OpenGL
 
-// Fonction appelee pour chaque sommet
-void main() {
-
-    // Affectation de la position du sommet
-    gl_Position = ftransform ();
-
-}
+// Fonction appelée pour chaque sommet
+void main(){
+    // Affectation de la couleur du sommet
+    gl_Position = ftransform();
+}
