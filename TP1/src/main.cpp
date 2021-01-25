@@ -62,9 +62,49 @@ int main()
   cout << "Initialisations..." << endl;
 
   // Compilation du shader program et génération de l'ID du Shader
-  GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
+  GLuint programID = LoadShaders("../shader/vao_vertex_shader.glsl", "../shader/fragment.glsl");
   // Demande d'utiliser le program créé juste au-dessus.
   glUseProgram(programID);
+
+  // Définition d'un vecteur
+  vec3 v(-1.0f, -1.0f, 0.0f);
+
+  // Définition d'un tableau de vecteurs
+  vec3 vertex[3] = {
+      vec3(-0.5f, -0.5f, 0.0f),
+      vec3(0.5f, -0.0f, 0.0f),
+      vec3(-0.5f, 0.5f, 0.0f),
+  };
+
+  // Obtention de l'ID de l'attribut 'vertex_position' dans programID
+  GLuint vertexPositionID = glGetAttribLocation(programID, "vertex_position");
+
+  /* Création d'un VAO et récupération de son ID */
+  GLuint vaoID;
+  glGenVertexArrays(1, &vaoID);
+  glBindVertexArray(vaoID); // Définition de notre VAO comme objet courant
+
+  /* Création d'un BO et récupération de son ID */
+  GLuint vboID;
+  glGenBuffers(1, &vboID);
+  glBindBuffer(GL_ARRAY_BUFFER, vboID); // Définition de notre VBO comme buffer courant
+
+  // Copie des données du CPU (dans vertex) vers le GPU (dans vboID).
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+
+  // On indique à OpenGL comment interpréter les données du VBO.
+  glEnableVertexAttribArray(vertexPositionID);
+  glVertexAttribPointer(
+      vertexPositionID, // ID de l'attribut à configurer
+      3,                // nombre de composantes par position (x,y,z)
+      GL_FLOAT,         // types des composantes
+      GL_FALSE,         // normalisation des composantes
+      0,                // décalage des composantes
+      (void *)0         // offset des composantes
+  );
+
+  // On désactive le VAO.
+  glBindVertexArray(0);
 
   // Definition de la couleur du fond
   glClearColor(0.0f, 0.0f, 0.3f, 0.0f);
@@ -83,12 +123,11 @@ int main()
     // ToDo : Dessiner
     //==================================================
 
-    glColor3f(0, 125, 0);
-    glBegin(GL_TRIANGLES);
-    glVertex3f(-0.5f, 0.5f, 0.0f);
-    glVertex3f(0.5f, 0.3f, 0.0f);
-    glVertex3f(-0.5f, -0.5f, 0.0f);
-    glEnd();
+    // On active le VAO.
+    glBindVertexArray(0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    // On désactive le VAO.
+    glBindVertexArray(0);
 
     // Echange des zones de dessin buffers
     glfwSwapBuffers(myWindow);
@@ -102,6 +141,10 @@ int main()
          (!glfwWindowShouldClose(myWindow)));                   // ... ou fermeture de la fenetre
 
   cout << endl;
+
+  /* On libère les buffers et objets */
+  glDeleteBuffers(1, &vboID);
+  glDeleteBuffers(1, &vaoID);
 
   // Ferme GLFW et OpenGL
   glfwTerminate();

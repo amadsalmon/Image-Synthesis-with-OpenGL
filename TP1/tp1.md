@@ -147,7 +147,7 @@ bon identifiant). On peut aussi revenir au mode classique avec “glUseProgram(0
 ### Dessiner un triangle avec un VAO+VBO(s)
 
 Nous allons maintenant voir une méthode alternative, plus moderne et plus efficace: l’utilisation de Vertex Buffer Object (ou VBO).
-Un tampon (buffer en Anglais) est une zone en mémoire (dans notre cas, mémoire = cache de la carte graphique) que l’on va remplir de nos données avant de lancer un processus qui va accéder à ces données : le shader.
+Un tampon (buffer en anglais) est une zone en mémoire (dans notre cas, mémoire = cache de la carte graphique) que l’on va remplir de nos données avant de lancer un processus qui va accéder à ces données : le shader.
 Ici le processus est le rendu de l’image, et les données sont les positions des sommets du triangle (avec éventuellement des normales, des couleurs, des coordonnées de texture, ...).
 Ces données ne sont transmises qu’une seule fois au début du programme, et non plus à chaque fois qu’on veut dessiner le triangle comme précédemment.
 
