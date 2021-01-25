@@ -3,5 +3,5 @@
 // Fonction appelée pour chaque fragment
 void main(){
     // Affectation de la couleur du fragment
-    gl_FragColor = vec4(1.,0.,0.,1.);
+    gl_FragColor = vec4(1.0, 0.9843, 0.1529, 1.0);
 }

@@ -8,71 +8,6 @@
 using namespace glm;
 using namespace std;
 
-int drawCube()
-{
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  // Face avant (multicolore)
-  glBegin(GL_POLYGON);
-  glColor3f(1.0, 0.0, 0.0);
-  glVertex3f(0.5, -0.5, -0.5); // sommet n°1 est rouge
-  glColor3f(0.0, 1.0, 0.0);
-  glVertex3f(0.5, 0.5, -0.5); // sommet n°2 est bleu
-  glColor3f(0.0, 0.0, 1.0);
-  glVertex3f(-0.5, 0.5, -0.5); // sommet n°3 est vert
-  glColor3f(1.0, 0.0, 1.0);
-  glVertex3f(-0.5, -0.5, -0.5); // sommet n°4 est violet
-  glEnd();
-
-  // Face arrière (blanc)
-  glBegin(GL_POLYGON);
-  glColor3f(1.0, 1.0, 1.0);
-  glVertex3f(0.5, -0.5, 0.5);
-  glVertex3f(0.5, 0.5, 0.5);
-  glVertex3f(-0.5, 0.5, 0.5);
-  glVertex3f(-0.5, -0.5, 0.5);
-  glEnd();
-
-  // Face droite (violet)
-  glBegin(GL_POLYGON);
-  glColor3f(1.0, 0.0, 1.0);
-  glVertex3f(0.5, -0.5, -0.5);
-  glVertex3f(0.5, 0.5, -0.5);
-  glVertex3f(0.5, 0.5, 0.5);
-  glVertex3f(0.5, -0.5, 0.5);
-  glEnd();
-
-  // Face gauche (vert)
-  glBegin(GL_POLYGON);
-  glColor3f(0.0, 1.0, 0.0);
-  glVertex3f(-0.5, -0.5, 0.5);
-  glVertex3f(-0.5, 0.5, 0.5);
-  glVertex3f(-0.5, 0.5, -0.5);
-  glVertex3f(-0.5, -0.5, -0.5);
-  glEnd();
-
-  // Face supérieure (bleu)
-  glBegin(GL_POLYGON);
-  glColor3f(0.0, 0.0, 1.0);
-  glVertex3f(0.5, 0.5, 0.5);
-  glVertex3f(0.5, 0.5, -0.5);
-  glVertex3f(-0.5, 0.5, -0.5);
-  glVertex3f(-0.5, 0.5, 0.5);
-  glEnd();
-
-  // Face inférieure (rouge)
-  glBegin(GL_POLYGON);
-  glColor3f(1.0, 0.0, 0.0);
-  glVertex3f(0.5, -0.5, -0.5);
-  glVertex3f(0.5, -0.5, 0.5);
-  glVertex3f(-0.5, -0.5, 0.5);
-  glVertex3f(-0.5, -0.5, -0.5);
-  glEnd();
-
-  glFlush();
-  return 0;
-}
-
 int main()
 {
   cout << "Debut du programme..." << endl;
@@ -126,22 +61,19 @@ int main()
 
   cout << "Initialisations..." << endl;
 
-  // Activer le buffer de l'axe Z
-  glEnable(GL_DEPTH_TEST);
-
   // Compilation du shader program et génération de l'ID du Shader
   GLuint programID = LoadShaders("../shader/vao_vertex_shader.glsl", "../shader/fragment.glsl");
   // Demande d'utiliser le program créé juste au-dessus.
-  //glUseProgram(programID);
+  glUseProgram(programID);
 
   // Définition d'un vecteur
   vec3 v(-1.0f, -1.0f, 0.0f);
 
   // Définition d'un tableau de vecteurs
   vec3 vertex[3] = {
-      vec3(-0.95f, 0.5f, 0.0f),
-      vec3(-0.45f, 0.45f, 0.0f),
-      vec3(-0.95f, 0.95f, 0.0f),
+      vec3(-0.5f, -0.5f, 0.0f),
+      vec3(0.5f, -0.0f, 0.0f),
+      vec3(-0.5f, 0.5f, 0.0f),
   };
 
   // Obtention de l'ID de l'attribut 'vertex_position' dans programID
@@ -177,9 +109,8 @@ int main()
   // Definition de la couleur du fond
   glClearColor(0.3f, 0.0f, 0.1f, 0.0f);
 
-  glPolygonMode(GL_FRONT, GL_LINE);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-  int rotate_x = 0, rotate_y = 0;
   cout << "Debut de la boucle principale..." << endl;
   unsigned int i = 0;
 
@@ -193,37 +124,12 @@ int main()
     //==================================================
     // ToDo : Dessiner
     //==================================================
-    /* // Dessin d'un triangle par VBA+VBO
+
     // On active le VAO.
     glBindVertexArray(0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     // On désactive le VAO.
-    glBindVertexArray(0);*/
-
-    /* *** DESSIN D'UN CARRÉ À PARTIR DE DEUX TRIANGLES *** */
-    /*
-    glBegin(GL_TRIANGLES);
-
-    // Triangle inférieur
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.5f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.5f, 0.0f);
-
-    // Triangle supérieur
-    glVertex3f(0.0f, 0.5f, 0.0f);
-    glVertex3f(0.5f, 0.5f, 0.0f);
-    glVertex3f(0.5f, 0.0f, 0.0f);
-
-    glEnd();
-    */
-
-    drawCube();
-
-    // Rotation automatique pour montrer toutes les faces du cube
-    glRotatef(rotate_x, 1.0, 0.0, 0.1);
-    glRotatef(rotate_y, 0.0, 1.0, 0.1);
-    rotate_x += 1;
-    rotate_y += 1;
+    glBindVertexArray(0);
 
     // Echange des zones de dessin buffers
     glfwSwapBuffers(myWindow);
