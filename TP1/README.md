@@ -39,6 +39,13 @@ glUseProgram(programID);
 
 ### Dessin d'un triangle avec un VAO+VBO
 
+On crée un nouveau vertex shader dans le fichier `shader/vvao_vertex_shader.glsl`.
+
+```c++
+// Compilation du shader program et generation de l ’ID du Shader
+GLuint programID = LoadShaders("../shader/vao_vertex_shader.glsl", "../shader/fragment.glsl");
+```
+
 Le triangle ci-dessous a été dessiné à l'aide d'un VAO et d'un VBO à partir du tableau de vecteurs suivant :
 
 ```c++
@@ -50,6 +57,8 @@ vec3 vertex[3] = {
 ```
 
 <img src="TP1-report.assets/triangle_simple_vao_vbo.png" alt="Dessin d'un triangle avec VAO+VBO" style="zoom:25%;" />
+
+
 
 ## À vous de jouer
 
@@ -219,4 +228,22 @@ Cette primitive découpe chacune des six faces de notre cube en deux triangles, 
 Cette primitive découpe chacune des six faces de notre cube en quatre triangles.
 
 <img src="TP1-report.assets/GL_QUAD_STRIP.png" alt="GL_QUAD_STRIP" style="zoom:25%;" />
+
+### Quel est l’effet de chaque fonction ?
+
+```c++
+/* Dans le main.cpp */
+glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+```
+
+Si cette option est activée et qu'un shader de sommet *(i.e. vertex shader)* est actif, la taille de point `gl_PointSize` est alors prise dans le shader.
+
+```c++
+/* Dans le vertex_shader */
+gl_Position.x /= 2;
+```
+
+Si cette option est activée et que le shader de sommet la contenant est actif, la position des sommets en $x$ est divisée par 2. 
+
+
 

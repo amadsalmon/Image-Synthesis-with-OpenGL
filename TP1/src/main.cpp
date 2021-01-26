@@ -134,6 +134,9 @@ int main()
   // Demande d'utiliser le program créé juste au-dessus.
   //glUseProgram(programID);
 
+  // Si cette option est activée et qu'un shader de sommet *(i.e. vertex shader)* est actif, la taille de point `gl_PointSize` est alors prise dans le shader.
+  // glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+
   // Définition d'un vecteur
   vec3 v(-1.0f, -1.0f, 0.0f);
 
@@ -177,9 +180,9 @@ int main()
   // Definition de la couleur du fond
   glClearColor(0.3f, 0.0f, 0.1f, 0.0f);
 
-  glPolygonMode(GL_FRONT, GL_LINE);
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-  int rotate_x = 0, rotate_y = 0;
+  float rotate_x = 0, rotate_y = 0;
   cout << "Debut de la boucle principale..." << endl;
   unsigned int i = 0;
 
@@ -193,6 +196,19 @@ int main()
     //==================================================
     // ToDo : Dessiner
     //==================================================
+
+    /* *** DESSIN D'UN TRIANGLE EN MODE IMMÉDIAT *** */
+    /*
+    glColor3f(0, 125, 0);  // Affectation de la couleur verte selon les composantes RGB
+    glBegin(GL_TRIANGLES); // Début du dessin de la forme, que l'on spécifie ici être un triangle.
+
+    // Création des trois sommets
+    glVertex3f(-0.5f, 0.5f, 0.0f);
+    glVertex3f(0.5f, 0.3f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.0f);
+
+    glEnd(); // Fin du dessin de la forme.
+    */
     /* // Dessin d'un triangle par VBA+VBO
     // On active le VAO.
     glBindVertexArray(0);
@@ -203,7 +219,6 @@ int main()
     /* *** DESSIN D'UN CARRÉ À PARTIR DE DEUX TRIANGLES *** */
     /*
     glBegin(GL_TRIANGLES);
-
     // Triangle inférieur
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.5f, 0.0f, 0.0f);
@@ -213,17 +228,17 @@ int main()
     glVertex3f(0.0f, 0.5f, 0.0f);
     glVertex3f(0.5f, 0.5f, 0.0f);
     glVertex3f(0.5f, 0.0f, 0.0f);
-
     glEnd();
     */
 
+    /* *** DESSIN D'UN CUBE *** */
     drawCube();
 
     // Rotation automatique pour montrer toutes les faces du cube
     glRotatef(rotate_x, 1.0, 0.0, 0.1);
     glRotatef(rotate_y, 0.0, 1.0, 0.1);
-    rotate_x += 1;
-    rotate_y += 1;
+    rotate_x += 0.01f;
+    rotate_y += 0.01f;
 
     // Echange des zones de dessin buffers
     glfwSwapBuffers(myWindow);
