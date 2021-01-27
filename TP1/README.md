@@ -20,7 +20,7 @@ glEnd();													// Fin du dessin de la forme.
 
 
 
-<img src="TP1-report.assets/dessin_triangle_immediat_avec_coloration_vert.png" alt="dessin_triangle_immediat_avec_coloration_vert" style="zoom:25%;" />
+<img src="TP1-report.assets/dessin_triangle_immediat_avec_coloration_vert.png" alt="dessin_triangle_immediat_avec_coloration_vert" style="zoom:20%;" />
 
 ### Utilisation des shaders
 
@@ -35,7 +35,7 @@ glUseProgram(programID);
 
 
 
-<img src="TP1-report.assets/utilisation_shader.png" alt="utilisation_shader" style="zoom:25%;" />
+<img src="TP1-report.assets/utilisation_shader.png" alt="utilisation_shader" style="zoom:20%;" />
 
 ### Dessin d'un triangle avec un VAO+VBO
 
@@ -60,6 +60,8 @@ vec3 vertex[3] = {
 
 
 
+<div style="page-break-after: always; break-after: page;"></div>
+
 ## À vous de jouer
 
 ### Dessin d'un polygone
@@ -67,6 +69,8 @@ vec3 vertex[3] = {
 L'utilisation de la commande `glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)` avant le dessin du triangle fait que seuls les côtés du triangle sont dessinés *(ce contour est très fin, zoomer dans la capture d'écran ci-dessous afin de le remarquer)*. 
 
 <img src="TP1-report.assets/triangle_front_back_line.png" alt="Dessin d'un triangle avec VAO+VBO" style="zoom:25%;" />
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 ### Changement de la couleur de fond avec `glClearColor`
 
@@ -80,6 +84,8 @@ glClearColor(0.3f, 0.0f, 0.1f, 0.0f);
 
 <img src="TP1-report.assets/avec_glClearColor.png" alt="Changement de la couleur de fond avec glClearColor" style="zoom:25%;" />
 
+<div style="page-break-after: always; break-after: page;"></div>
+
 ### Changement de la couleur du triangle dans le fragment shader
 
 Dans le fichier `fragment.glsl`, on remplace la ligne précedemment contenue dans le main par la ligne suivante :
@@ -92,7 +98,7 @@ Cette instruction a pour effet d'affecter la couleur jaune aux fragments dessin�
 
 <img src="TP1-report.assets/changement_couleur_avec_shader.png" alt="Changement de la couleur du triangle dans le fragment shader" style="zoom:25%;" />
 
-
+<div style="page-break-after: always; break-after: page;"></div>
 
 ### Dessin de différentes formes
 
