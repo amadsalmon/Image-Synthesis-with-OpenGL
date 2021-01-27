@@ -129,7 +129,9 @@ int main()
 
   glBindVertexArray(0); // Désactiver le VAO
 
-  
+  //==================================================
+  // ToDo : Creer les matrices de transformation
+  //==================================================
 
   cout << "Debut de la boucle principale..." << endl;
   unsigned int i = 0;
@@ -153,9 +155,7 @@ int main()
     //==================================================
     // ToDo : Transmettre les matrices au vertex shader
     //==================================================
-    
-    
-    
+
     glBindVertexArray(vaoID); // On active le VAO
 
     // on dessine le contenu de tous les VBOs (buffers) associés à ce VAO
