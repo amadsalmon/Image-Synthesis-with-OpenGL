@@ -30,7 +30,7 @@ int main()
 {
   GLFWwindow *myWindow;
 
-  cout << "Debut du programme..." << endl;
+  cout << " -- Debut du programme." << endl;
 
   //==================================================
   //============= Creation de la fenetre =============
@@ -130,10 +130,25 @@ int main()
   glBindVertexArray(0); // Désactiver le VAO
 
   //==================================================
-  // ToDo : Creer les matrices de transformation
+  //  Création des matrices de transformation
   //==================================================
 
-  cout << "Debut de la boucle principale..." << endl;
+  mat4 model_matrix = mat4(1.0);
+  mat4 view_matrix = lookAt(
+      vec3(0.f, 0.f, 2.f),  // PLACE DE LA CAMERA
+      vec3(0.f),            // POINT QUE LA CAMERA REGARDE
+      vec3(0.f, 1.f, 0.f)); // VERTICALE DE LA CAMERA
+  mat4 projection_matrix = perspective(
+      45.0f,          // ANGLE DE VUE
+      WIDTH / HEIGHT, // RAPPORT D'ASPECT DE LA FENETRE
+      0.1f,           // LIMITE PROCHE DE LA PYRAMIDE DE VUE
+      100.f);         //  LIMITE LOINTAINE DE LA PYRAMIDE DE VUE
+  // Recuperation des ID des matrices dans le shader program
+  GLuint MmatrixID = glGetUniformLocation(programID, "ModelMatrix");
+  GLuint VmatrixID = glGetUniformLocation(programID, "ViewMatrix");
+  GLuint PmatrixID = glGetUniformLocation(programID, "ProjectionMatrix");
+
+  cout << " -- Debut de la boucle principale..." << endl;
   unsigned int i = 0;
 
   // Boucle de dessin
@@ -153,8 +168,11 @@ int main()
     glUseProgram(programID); // Definition de programID comme le shader courant
 
     //==================================================
-    // ToDo : Transmettre les matrices au vertex shader
+    // Transmission des matrices au vertex shader
     //==================================================
+    glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
+    glUniformMatrix4fv(VmatrixID, 1, GL_FALSE, value_ptr(view_matrix));
+    glUniformMatrix4fv(PmatrixID, 1, GL_FALSE, value_ptr(projection_matrix));
 
     glBindVertexArray(vaoID); // On active le VAO
 
@@ -186,7 +204,7 @@ int main()
   glDeleteBuffers(1, &vboID);
   glDeleteBuffers(1, &vaoID);
 
-  cout << "Fin du programme..." << endl;
+  cout << " -- Fin du programme." << endl;
 
   return EXIT_SUCCESS;
 }
