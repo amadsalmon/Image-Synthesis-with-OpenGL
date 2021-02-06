@@ -15,15 +15,65 @@ using namespace std;
 #define WIDTH 1000.0f
 #define HEIGHT 800.0f
 
+/**
+ * Effectue des changements de point de vue d'importance dx grâce à des transformations de la matrice de vue view_matrix selon les touches du clavier pressées.
+ * Attention : les touches sont celles du clavier QWERTY.
+ * */
 void view_control(GLFWwindow *aWindow, mat4 &view_matrix, float dx)
 {
-  // exemple de controle clavier
+  // Translation vers le haut
   if (glfwGetKey(aWindow, GLFW_KEY_UP) == GLFW_PRESS)
   {
-    // appliquer une transformation (dx) à la matrice view
+    view_matrix = translate(view_matrix, vec3(0.0f, dx, 0.0f));
   }
 
-  // ...
+  // Translation vers le bas
+  if (glfwGetKey(aWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+  {
+    view_matrix = translate(view_matrix, vec3(0.0f, -dx, 0.0f));
+  }
+
+  // Translation vers la droite
+  if (glfwGetKey(aWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
+  {
+    view_matrix = translate(view_matrix, vec3(dx, 0.0f, 0.0f));
+  }
+
+  // Translation vers la gauche
+  if (glfwGetKey(aWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
+  {
+    view_matrix = translate(view_matrix, vec3(-dx, 0.0f, 0.0f));
+  }
+
+  // Rotation directe autour de l'axe x - (touche "I")
+  if (glfwGetKey(aWindow, GLFW_KEY_I) == GLFW_PRESS)
+  {
+    view_matrix = rotate(view_matrix, dx, vec3(1.0f, 0.0f, 0.0f));
+  }
+
+   // Rotation directe autour de l'axe y - (touche "J")
+  if (glfwGetKey(aWindow, GLFW_KEY_J) == GLFW_PRESS)
+  {
+    view_matrix = rotate(view_matrix, dx, vec3(0.0f, 1.0f, 0.0f));
+  }
+
+   // Rotation directe autour de l'axe z - (touche "K")
+  if (glfwGetKey(aWindow, GLFW_KEY_K) == GLFW_PRESS)
+  {
+    view_matrix = rotate(view_matrix, dx, vec3(0.0f, 0.0f, 1.0f));
+  }
+
+  // Zoom avant - (touche "Z" du clavier QWERTY, touche "W" du clavier AZERTY) 
+  if (glfwGetKey(aWindow, GLFW_KEY_Z) == GLFW_PRESS)
+  {
+    view_matrix = scale(view_matrix, vec3(1.0f - dx, 1.0f - dx, 1.0f - dx));
+  }
+
+  // Zoom avant - (touche "X")
+  if (glfwGetKey(aWindow, GLFW_KEY_X) == GLFW_PRESS)
+  {
+    view_matrix = scale(view_matrix, vec3(1.0f + dx, 1.0f + dx, 1.0f + dx));
+  }
 }
 
 int main()
@@ -161,7 +211,7 @@ int main()
     //==================================================
     // Modification des matrices de transformation
     //==================================================
-    
+
     // >***** Changements de point de vue ******<
   
     // Tourne view_matrix d'un angle autour de l'axe z
@@ -172,9 +222,11 @@ int main()
 
     // Déplace view_matrix vers la gauche (x négatif), le haut (y positif), et vers nous (z positif).
     //view_matrix = translate(view_matrix, vec3(-0.002f,0.001f,0.004f));
-    
-    // >****************************************<
 
+    // Activer la navigation dans la scene par touches du clavier.
+    view_control(myWindow, view_matrix, 0.05f);
+
+    // >****************************************<
 
 
     //==================================================
