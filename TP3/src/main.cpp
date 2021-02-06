@@ -217,10 +217,7 @@ int main()
   colors.push_back(vec3(1, 0, 1));
   colors.push_back(vec3(1, 0, 0));
 
-  //==================================================
-  // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
-  //==================================================
-
+  // Creation d'un buffer des couleurs
   GLuint colorBufferID;
   glGenBuffers(1, &colorBufferID);
   cout << "colorBufferID = " << colorBufferID << endl;
@@ -237,6 +234,11 @@ int main()
   // On autorise et indique a OpenGL comment lire les donnees
   glVertexAttribPointer(vertexColorID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
   glEnableVertexAttribArray(vertexColorID);
+
+  //==================================================
+  // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
+  //==================================================
+
 
   //==================================================
   // Todo 3 : Creation des buffers avec le chargement d'un maillage
