@@ -183,7 +183,6 @@ int main()
 
     // Echange des zones de dessin buffers
     glfwSwapBuffers(myWindow);
-    glfwSwapBuffers(myWindow);
     glfwPollEvents();
 
     cout << "Compteur : " << i++ << "\r";
