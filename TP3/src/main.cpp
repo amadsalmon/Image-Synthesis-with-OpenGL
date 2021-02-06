@@ -146,7 +146,7 @@ int main()
   glBindVertexArray(vaoID); // rendre ce VAO actif
 
   //==================================================
-  // Done : Creation d'un buffer (VBO) pour les positions des sommets
+  // Création d'un buffer (VBO) pour les positions des sommets
   // avec vertexBufferID pour identifiant
   //==================================================
 
@@ -167,9 +167,12 @@ int main()
   glVertexAttribPointer(vertexPositionID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
   glEnableVertexAttribArray(vertexPositionID);
 
-  //==================================================
-  // Todo 1 : Creation d'un nouveau buffer pour la couleur des sommets
-  //==================================================
+  //=========================================================
+  // Creation d'un nouveau buffer pour la couleur des sommets
+  // Les couleurs sont associées à chacun des 6 sommets de 
+  // chacune des 4 faces du cube, c'est à dire qu'il y a donc
+  // 36 couleurs dans `colors`.
+  //=========================================================
   // Definition d'un tableau de vecteurs
   vector<vec3> colors;
   colors.push_back(vec3(1, 0, 1));
@@ -217,7 +220,7 @@ int main()
   //==================================================
   // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
   //==================================================
-  
+
   GLuint colorBufferID;
   glGenBuffers(1, &colorBufferID);
   cout << "colorBufferID = " << colorBufferID << endl;

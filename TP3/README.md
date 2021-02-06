@@ -4,7 +4,7 @@
 
 ## Buffer de couleur
 
-Nous créons un tableau de type ```vector<vec3>``` stockant une couleur par sommet du cube,  que  nous  nommons  ```colors```.  Les couleurs sont associées à chacun des sommets de chacune des faces.
+Nous créons un tableau de type ```vector<vec3>``` stockant une couleur par sommet du cube,  que  nous  nommons  ```colors```.  Les couleurs sont associées à chacun des 6 sommets de chacune des 4 faces du cube, c'est à dire qu'il y a donc 36 couleurs dans `colors`.
 
 Nous créeons ensuite un buffer à partir de ```colors```. Pour ceci, il suffit de faire exactement pareil que pour les positions des sommets ainsi que de modifier le vertex shader pour que celui-ci réceptionne ce nouvel attribut. 
 
