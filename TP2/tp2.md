@@ -10,7 +10,7 @@ Vous déposerez sur Chamilo une archive nom_prenom.zip contenant:
 - Un rapport contenant vos résultats (réponses, images, commentaires,...) 
 
 ## Introduction
-L’objectif du TP est de construire un outil de visualisation de modèle 3D simple permettant la navigation dans        une scène 3D. La base de code qui vous est fournie reprend les éléments de la dernière séance : création de fenêtre GLFW et initialisation de contexte OpenGL, affichage de géométrie. 
+L’objectif du TP est de construire un outil de visualisation de modèle 3D simple permettant la navigation dans une scène 3D. La base de code qui vous est fournie reprend les éléments de la dernière séance : création de fenêtre GLFW et initialisation de contexte OpenGL, affichage de géométrie. 
 
 - accédez au dossier des TPs: ```cd ~/TP3D/```
 - récupérez/dézippez le TP2 :
@@ -39,7 +39,7 @@ Vous pouvez alors exécuter le programme:
 Note : La version d’OpenGL est maintenant la 3.3, et GLSL 150.
 
 ### Pipeline de Transformation
-Comment déplacer, tourner, changer l’échelle d’un modèle 3D ? Comment créer une modifier le point de vue dans     la scene ? Ces éléments sont à la base de la création d’une scène virtuelle et même si leur utilisation est cachée par une interface utilisateur, il reste essentiel d’en connaître le fonctionnement.
+Comment déplacer, tourner, changer l’échelle d’un modèle 3D ? Comment créer une modifier le point de vue dans la scene ? Ces éléments sont à la base de la création d’une scène virtuelle et même si leur utilisation est cachée par une interface utilisateur, il reste essentiel d’en connaître le fonctionnement.
 
 #### Les coordonnées homogènes
 
