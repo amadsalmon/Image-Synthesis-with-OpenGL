@@ -11,7 +11,7 @@ La base de code qui vous est fournie reprend les éléments de la dernière séa
 - vérifiez que le répertoire `models`se trouve bien dans `TP3D`, dans le cas contraire reportez vous au sujet du TP1 pour récupérer ce répertoire contenant des modèles 3D.
 - récupérez/dézippez le TP3 :
 
-``` 
+```bash
 wget --user="cours_cg" --password="cours_cg" http://www-evasion.imag.fr/~Georges-Pierre.Bonneau/COURS_CG/TP/TP3.zip ;
 unzip TP3.zip && rm -f TP3.zip 
 ```
@@ -19,12 +19,12 @@ unzip TP3.zip && rm -f TP3.zip
 - placez vous dans le répertoire TP3: ```cd TP3```
 - installer un lien vers le répertoire `models` situé dans le repertoire parent:
 
-```
+```bash
 ln -sf ../models .
 ```
 
 - créez un dossier pour la compilation, accédez à ce dossier, lancez CMake, lancez la compilation
-```
+```bash
 mkdir  build ;
 cd build ;
 cmake .. ;
@@ -46,7 +46,7 @@ Créez un tableau de type ```vector<vec3>``` stockant une couleur par sommet du 
 
 Ensuite, il faut créer un buffer à partir de ```colors```. Pour ceci, il suffit de faire exactement pareil que pour les positions des sommets :
 
-```
+```c++
   // Creation d'un buffer des couleurs
   GLuint colorBufferID;
   glGenBuffers( 1, &colorBufferID);
@@ -67,7 +67,7 @@ Ensuite, il faut créer un buffer à partir de ```colors```. Pour ceci, il suffi
 
 Notez que ce VBO est automatiquement associé au VAO  actif (vaoID).  Il faut modifier le vertex shader pour que celui-ci réceptionne ce nouvel attribut :
 
-````
+```c++
 // Version d'OpenGL
 #version 330
 
@@ -92,7 +92,7 @@ void main()
 
   my_color = vec4( in_color, 1.0);
 }
-````
+```
 
 ###### Travail à réaliser:
 
@@ -123,7 +123,7 @@ Vous devrez déterminer vous-même les 36 indices. Attention: pour chaque triang
 
 L’envoi du tableau des indices au GPU est très similaire à celui des sommets ou des couleurs, excepté le fait qu’il faut préciser qu’il s’agit d’un tableau d’indices (avec le mot clé ``GL_ELEMENT_ARRAY_BUFFER``) et qu’il n'est pas nécessaire d'établir de liens avec les shaders. En effet ces indices interviennent en dehors des shaders, après l'exécution du vertex shader, au moment de la construction des primitives graphiques juste avant la rasterisation de ces primitives.
 
-```
+```c++
 // Creation du buffer des indices
 GLuint indiceBufferID;
 glGenBuffers( 1, &indiceBufferID);
@@ -138,7 +138,7 @@ N’oubliez pas non plus de détruire ce buffer à la fin.
 
 Enfin, il faut aussi changer la manière de dessiner dans la boucle de rendu, avec:
 
-```
+```c++
  glDrawElements( GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0); 
 ```
 
@@ -157,7 +157,7 @@ Un maillage est constitué :
 
 Pour stocker un maillage dans un fichier, il existe différents formats.  Le plus simple d’entre eux est le format  ```OFF```. Voici un exemple de fichier ``OFF`` représentant un maillage avec 5 sommets et 2 polygones, un quadrilatère (4 indices) et un triangle (3 indices):
 
-```
+```c++
 OFF
 5 2 0
 
@@ -176,7 +176,7 @@ Vous observez les 5 lignes contenant les coordonnées des sommets, suivies des 2
 Les fichiers ```Mesh.h``` et ```Mesh.cpp``` implémentent une classe permettant de représenter un maillage :  cette  classe contient des attributs pour les tableaux de positions, de normales,  de couleurs,  et d’indices.  Par  ailleurs,  cette classe propose de charger automatiquement ces informations à partir d’un fichier ```OFF```. Attention: ces fichiers ne traitent que les maillages contenant exclusivement des triangles.
 
 
-```
+```c++
 //-------------------------------------------------
 // Lecture du maillage
 Mesh m("../models/cube.off");
@@ -188,7 +188,3 @@ m.faces.data(); // acces au tableau des indices des triangles
 ###### Travail à réaliser:
 
 Chargez un maillage du répertoire ```models``` et affichez le. Le travail consistera principalement à remplacer le tableau ``vertices`` dans le code précédent par ``m.vertices``, et à remplacer le tableau ``indices`` dans le code précédent par ``m.faces``.
-
-
-
-
