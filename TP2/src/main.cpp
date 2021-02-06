@@ -159,8 +159,23 @@ int main()
     glClear(GL_COLOR_BUFFER_BIT);
 
     //==================================================
-    // ToDo : Modifier les matrices de transformation
+    // Modification des matrices de transformation
     //==================================================
+    
+    // >***** Changements de point de vue ******<
+  
+    // Tourne view_matrix d'un angle autour de l'axe z
+    //view_matrix = rotate(view_matrix, 50.0f ,vec3(0.0f,0.0f,1.0f));
+
+    // Change l'échelle de view_matrix dans toutes les dimensions
+    //view_matrix = scale(view_matrix, vec3(0.5f,0.5f,0.5f));
+
+    // Déplace view_matrix vers la gauche (x négatif), le haut (y positif), et vers nous (z positif).
+    //view_matrix = translate(view_matrix, vec3(-0.002f,0.001f,0.004f));
+    
+    // >****************************************<
+
+
 
     //==================================================
     //===================== Dessin =====================
