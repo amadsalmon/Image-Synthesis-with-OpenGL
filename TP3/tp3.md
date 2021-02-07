@@ -119,7 +119,7 @@ indices.push_back( desIndices[i]);
 }
 ```
 
-Vous devrez déterminer vous-même les 36 indices. Attention: pour chaque triangle, les indices de ses sommets doivent être donnés dans l'ordre trigonométrique lorsque vous observez ce triangle depuis l'extérieur de l'objet. Si vous vous trompez d'orientation, la face ne sera pas rendue, elle apparaitra noire.  Pour ne pas vous tromper, faites sur papier le dessin d'un cube en indiquant les indices que vous aurez choisi pour les 8 sommets. Ensuite pour chaque face (haut, bas, gauche, droite, devant, derriere), faite un dessin de cette face vue de l'extérieur du cube, en reportant précisément les indices des sommets.
+Vous devrez déterminer vous-même les 36 indices. Attention: pour chaque triangle, les indices de ses sommets doivent être donnés dans l'ordre trigonométrique lorsque vous observez ce triangle depuis l'extérieur de l'objet. Si vous vous trompez d'orientation, la face ne sera pas rendue, elle apparaitra noire.  Pour ne pas vous tromper, faites sur papier le dessin d'un cube en indiquant les indices que vous aurez choisi pour les 8 sommets. Ensuite pour chaque face (haut, bas, gauche, droite, devant, derriere), faites un dessin de cette face vue de l'extérieur du cube, en reportant précisément les indices des sommets.
 
 L’envoi du tableau des indices au GPU est très similaire à celui des sommets ou des couleurs, excepté le fait qu’il faut préciser qu’il s’agit d’un tableau d’indices (avec le mot clé ``GL_ELEMENT_ARRAY_BUFFER``) et qu’il n'est pas nécessaire d'établir de liens avec les shaders. En effet ces indices interviennent en dehors des shaders, après l'exécution du vertex shader, au moment de la construction des primitives graphiques juste avant la rasterisation de ces primitives.
 

@@ -98,47 +98,59 @@ int main()
 
   // Definition d'un tableau de vecteurs
   vector<vec3> vertices;
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(1, 1, -1));
-  vertices.push_back(vec3(1, -1, -1));
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(-1, 1, -1));
-  vertices.push_back(vec3(1, 1, -1));
+  /* -- ANCIENNE VERSION --
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(1, 1, -1));   // 3
+  vertices.push_back(vec3(1, -1, -1));  // 2
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(-1, 1, -1));  // 0
+  vertices.push_back(vec3(1, 1, -1));   // 3
 
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(-1, 1, 1));
-  vertices.push_back(vec3(-1, 1, -1));
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(-1, -1, 1));
-  vertices.push_back(vec3(-1, 1, 1));
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(-1, 1, 1));   // 7
+  vertices.push_back(vec3(-1, 1, -1));  // 0
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(-1, -1, 1));  // 6
+  vertices.push_back(vec3(-1, 1, 1));   // 7
 
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(1, -1, 1));
-  vertices.push_back(vec3(-1, -1, 1));
-  vertices.push_back(vec3(-1, -1, -1));
-  vertices.push_back(vec3(1, -1, -1));
-  vertices.push_back(vec3(1, -1, 1));
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(1, -1, 1));   // 5
+  vertices.push_back(vec3(-1, -1, 1));  // 6
+  vertices.push_back(vec3(-1, -1, -1)); // 1
+  vertices.push_back(vec3(1, -1, -1));  // 2
+  vertices.push_back(vec3(1, -1, 1));   // 5
 
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(-1, 1, 1));
-  vertices.push_back(vec3(-1, -1, 1));
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(-1, -1, 1));
-  vertices.push_back(vec3(1, -1, 1));
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(-1, 1, 1));   // 7
+  vertices.push_back(vec3(-1, -1, 1));  // 6
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(-1, -1, 1));  // 6
+  vertices.push_back(vec3(1, -1, 1));   // 5
 
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(1, -1, 1));
-  vertices.push_back(vec3(1, -1, -1));
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(1, -1, -1));
-  vertices.push_back(vec3(1, 1, -1));
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(1, -1, 1));   // 5
+  vertices.push_back(vec3(1, -1, -1));  // 2
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(1, -1, -1));  // 2
+  vertices.push_back(vec3(1, 1, -1));   // 3
 
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(1, 1, -1));
-  vertices.push_back(vec3(-1, 1, -1));
-  vertices.push_back(vec3(1, 1, 1));
-  vertices.push_back(vec3(-1, 1, -1));
-  vertices.push_back(vec3(-1, 1, 1));
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(1, 1, -1));   // 3
+  vertices.push_back(vec3(-1, 1, -1));  // 0
+  vertices.push_back(vec3(1, 1, 1));    // 4
+  vertices.push_back(vec3(-1, 1, -1));  // 0
+  vertices.push_back(vec3(-1, 1, 1));   // 7
+  */
+
+  // Nouvelle version, avec indices
+  vertices.push_back(vec3(-1, 1, 1));  // 0
+  vertices.push_back(vec3(-1, -1, 1)); // 1
+  vertices.push_back(vec3(1, -1, 1));  // 2
+  vertices.push_back(vec3(1, 1, 1));   // 3
+  vertices.push_back(vec3(1, 1, -1));    // 4
+  vertices.push_back(vec3(1, -1, -1));   // 5
+  vertices.push_back(vec3(-1, -1, -1));  // 6
+  vertices.push_back(vec3(-1, 1, -1));   // 7
 
   // Creation d'un VAO (c'est l'objet qui encapsule les VBOs et qu'on va manipuler)
   GLuint vaoID;
@@ -175,6 +187,7 @@ int main()
   //=========================================================
   // Definition d'un tableau de vecteurs
   vector<vec3> colors;
+  /* -- ANCIENNE VERSION --
   colors.push_back(vec3(1, 0, 1));
   colors.push_back(vec3(1, 1, 0));
   colors.push_back(vec3(1, 1, 1));
@@ -216,6 +229,16 @@ int main()
   colors.push_back(vec3(1, 0, 0));
   colors.push_back(vec3(1, 0, 1));
   colors.push_back(vec3(1, 0, 0));
+  */
+  // Nouvelle version, avec indices
+  colors.push_back(vec3(0, 1, 0));   // 0
+  colors.push_back(vec3(0, 0, 0));   // 1
+  colors.push_back(vec3(1, 0, 0));   // 2
+  colors.push_back(vec3(1, 1, 0));   // 3
+  colors.push_back(vec3(1, 1, 1));   // 4
+  colors.push_back(vec3(1, 0, 1));   // 5
+  colors.push_back(vec3(0, 0, 1));   // 6
+  colors.push_back(vec3(0, 1, 1));   // 7
 
   // Creation d'un buffer des couleurs
   GLuint colorBufferID;
@@ -238,6 +261,49 @@ int main()
   //==================================================
   // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
   //==================================================
+  
+  uint lesIndices[] = {
+    // Haut
+    4, 7, 0,
+    3, 4, 0,
+
+    // Bas
+    2, 1, 6,
+    5, 2, 6,
+
+    // Gauche
+    0, 7, 6,
+    1, 0, 6,
+
+    // Droite
+    4, 3, 2,
+    5, 4, 2,
+
+    // Devant
+    3, 0, 1,
+    2, 3, 1,
+
+    // Derrière
+    7, 4, 5,
+    6, 7, 5
+  };
+
+  vector<uint> indices;
+  for (int i = 0; i < 36; i++)
+  {
+    indices.push_back(lesIndices[i]);
+  }
+  
+  // Creation d'un buffer des indices
+  GLuint indiceBufferID;
+  glGenBuffers(1, &indiceBufferID);
+  cout << "indiceBufferID = " << indiceBufferID << endl;
+
+  // Definition de indiceBufferID comme le buffer courant de GL_ELEMENT_ARRAY_BUFFER
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
+
+  // Copie des donnees sur la carte graphique (dans indiceBufferID)
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), indices.data(), GL_STATIC_DRAW);
 
 
   //==================================================
@@ -313,7 +379,10 @@ int main()
 
     // on dessine le contenu de tous les VBOs (buffers) associés à ce VAO
     // i.e: positions et couleurs
-    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    // glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    
+    // Nouvelle manière de dessiner, avec indices
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0); // On désactive le VAO
 
@@ -343,6 +412,7 @@ int main()
   glDeleteBuffers(1, &vaoID);
   glDeleteBuffers(1, &vertexBufferID);
   glDeleteBuffers(1, &colorBufferID);
+  glDeleteBuffers(1, &indiceBufferID);
 
   //==================================================
   // Todo : Libérer TOUS les buffers que vous avez cree
