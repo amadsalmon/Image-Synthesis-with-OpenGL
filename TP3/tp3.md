@@ -153,21 +153,24 @@ Faites toutes ces modifications, et vérifiez que le cube apparait correctement.
 Nous allons maintenant nous intéresser à un mode de représentation des objets en 3D : les maillages. Un maillage  est une surface discrétisée sous la forme de polygones, très souvent des triangles. Nous nous en servons en informatique graphique pour représenter les objets.
 Un maillage est constitué :
 - d’un ensemble de points, les sommets des polygones formant notre maillage,
-- d’un ensemble d’indices, qui indique pour chaque polygone les indices des sommets qui le constitue.
+- d’un ensemble d’indices, qui indique pour chaque polygone les indices des sommets qui le constituent.
 
-Pour stocker un maillage dans un fichier, il existe différents formats.  Le plus simple d’entre eux est le format  ```OFF```. Voici un exemple de fichier ``OFF`` représentant un maillage avec 5 sommets et 2 polygones, un quadrilatère (4 indices) et un triangle (3 indices):
+Pour stocker un maillage dans un fichier, il existe différents formats.  Le plus simple d’entre eux est le format  ```OFF```.  
+Voici un exemple de fichier ``OFF`` représentant un maillage avec 5 sommets et 2 polygones, un quadrilatère (4 indices) et un triangle (3 indices):
 
 ```c++
 OFF
-5 2 0
+5 2 0 // signifie "5 sommets, 2 polygones, 0 (quelque chose)"
 
-0. 0. 0.
+/* Les 5 sommets */
+0. 0. 0. // sommet d'indice 0 ...
 1. 0. 0.
 1. 1. 0.
 0. 1. 0.
-2. 1. 0.
+2. 1. 0. // sommet d'indice 4
 
-4 0 1 2 3
+/* 2 lignes contenant au début le nombre de sommets du polygone, puis les indices des sommets de ce polygone. */
+4 0 1 2 3 
 3 1 4 3
 ```
 
