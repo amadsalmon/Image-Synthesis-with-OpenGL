@@ -342,6 +342,7 @@ int main()
   // Liberation des buffers
   glDeleteBuffers(1, &vaoID);
   glDeleteBuffers(1, &vertexBufferID);
+  glDeleteBuffers(1, &colorBufferID);
 
   //==================================================
   // Todo : Libérer TOUS les buffers que vous avez cree
