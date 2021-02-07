@@ -226,7 +226,7 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
 
   // Copie des donnees sur la carte graphique (dans colorBufferID)
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), colors.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(vec3), colors.data(), GL_STATIC_DRAW);
 
   // Obtention de l'ID de l'attribut "in_color" dans programID
   GLuint vertexColorID = glGetAttribLocation(programID, "in_color");
