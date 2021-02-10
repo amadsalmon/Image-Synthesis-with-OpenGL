@@ -93,6 +93,14 @@ int main()
   GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
   cout << "programID = " << programID << endl;
 
+  
+  //==================================================
+  // Creation des buffers avec le chargement d'un maillage
+  //==================================================
+  Mesh m("../models/cube.off"); // Lecture du maillage
+  m.vertices.data(); // Acces au tableau des positions
+  m.faces.data();    // acces au tableau des indices des triangles
+
   //-------------------------------------------------
   // Initialisation des arrays de données
 
@@ -170,7 +178,11 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 
   // Copie des donnees sur la carte graphique (dans vertexBufferID)
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), GL_STATIC_DRAW);
+  // glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), GL_STATIC_DRAW);
+
+  // Version avec maillage
+  glBufferData(GL_ARRAY_BUFFER, m.vertices.size() * sizeof(vec3), m.vertices.data(), GL_STATIC_DRAW);
+
 
   // Obtention de l'ID de l'attribut "in_position" dans programID
   GLuint vertexPositionID = glGetAttribLocation(programID, "in_position");
@@ -261,7 +273,7 @@ int main()
   //==================================================
   // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
   //==================================================
-  
+
   uint lesIndices[] = {
     // Haut
     4, 7, 0,
@@ -303,12 +315,11 @@ int main()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
 
   // Copie des donnees sur la carte graphique (dans indiceBufferID)
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), indices.data(), GL_STATIC_DRAW);
+  // glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), indices.data(), GL_STATIC_DRAW);
 
+  // Version avec maillage
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, m.faces.size() * sizeof(vec3), m.faces.data(), GL_STATIC_DRAW);
 
-  //==================================================
-  // Todo 3 : Creation des buffers avec le chargement d'un maillage
-  //==================================================
 
   glBindVertexArray(0); // Désactiver le VAO
 
@@ -382,7 +393,10 @@ int main()
     // glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     
     // Nouvelle manière de dessiner, avec indices
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+    // Version avec maillage
+    glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0); // On désactive le VAO
 
