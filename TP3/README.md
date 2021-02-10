@@ -63,6 +63,14 @@ Le résultat est un cube strictement identique au cube généré par le code de 
 <img src="README.assets/cube_with_indices.png" alt="Cube généré à partir d'un buffer d'indices" style="zoom:25%;" />
 
 
-
+<div style="page-break-after: always; break-after: page;"></div>
 ## Maillage
 
+On charge le maillage `cube.off` du répertoire `models`, voici le résultat :
+
+<img src="README.assets/cube_maillage_cube.png" alt="Cube généré à partir du maillage models/cube.off" style="zoom:20%;" />
+
+
+Par curiosité, on tente de charger d'autres maillages. Voici le résultat (plutôt particulier) pour le maillage `sphere.off` :
+
+<img src="README.assets/cube_maillage_sphere.png" alt="Cube généré à partir du maillage models/sphere.off" style="zoom:20%;" />
