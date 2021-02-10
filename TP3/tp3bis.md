@@ -6,7 +6,7 @@
 ## Introduction
 Ce TP poursuit le TP précédent. Si vous ne l’avez pas encore fait, terminez le TP3. Vous devez parvenir à charger un maillage indexé (avec la classe Mesh), puis à créer et envoyer les données vers des buffers sur le GPU avant de dessiner. Les maillages fournis ne sont pas tous de la même taille et ne sont pas centrés autour de la même position. Vous pouvez utiliser la fonction ```normalize``` dans la classe ```Mesh``` pour éviter d’avoir à modifier la caméra à chaque fois que vous ouvrez un nouvel objet. Cette fonction applique une translation et une transformation d'échelle à l'objet de telle manière à ce qu'il soit inclus dans la sphère unité. La fonction ```colorize``` permet de recalculer les couleurs par défaut si l'objet n'a pas de couleurs.
 
-```
+```c++
   Mesh m("../models/armadillo.off");
   m.normalize(); // met a l'echelle pour que le maillage remplisse la sphere unite
   m.colorize(); // calcul une couleur en chaque sommet
@@ -29,7 +29,7 @@ Pour créer les données il faut :
     Ici ```T``` représente le type de vos données. Ce sera par exemple ```glm::vec3``` pour des positions ou des couleurs RGB, ou ```uint``` (entiers non signés) pour des indices. Vous remplacerez ```conteneur``` par le nom que vous souhaitez donner à votre tableau, par exemples ```vertices``` ou ```normals```.
 
 - Remplir le conteneur, par exemple:
-   ```
+   ```c++
    conteneur.push_back(glm::vec3(0.0f));
    conteneur.push_back(glm::vec3(1.0f, 0.0f, 0.5f));
    ```
@@ -37,30 +37,30 @@ Pour créer les données il faut :
 Pour créer un tampon et y recopier les données précédentes il faut:
 
 - Déclarer un identifiant pour le tampon:
-  ```
+  ```c++
   GLuint bufferID;
   ```
   Cet identifiant servira de référence dans le CPU vers le tampon situé dans le GPU.
 
 - Générer le tampon dans le GPU:
-  ```
+  ```c++
   glGenBuffers( 1, &bufferID);
   ```
 
 - Afficher l'identifiant ```bufferID```:
-  ```
+  ```c++
   std::cout << "bufferID = " << bufferID << std::endl;
   ```
   Cet affichage est facultatif. La valeur devrait être comprise entre 1 et le nombre de tampons que vous avez créés jusqu’à maintenant (typiquement moins d’une dizaine dans le cadre de ces TP).
 
 - Définir ce tampon comme le tampon courant:
-  ```
+  ```c++
   glBindBuffer( GL_ARRAY_BUFFER, bufferID);
   ```
   Si votre tampon contient des indices (pour l’indexation des sommets), il faut remplacer ```GL_ARRAY_BUFFER``` par ```GL_ELEMENT_ARRAY_BUFFER```. 
 
 - et enfin copiez les données du tableau ```conteneur``` dans le CPU vers le tampon dans le GPU:
-  ```
+  ```c++
   glBufferData( GL_ARRAY_BUFFER, conteneur.size() * sizeof(T), conteneur.data(), GL_STATIC_DRAW);
   ```
   Rappelez vous que ```T``` est le type des données contenues dans le tampon, typiquement ```glm::vec3``` ou ```uint```, et qu'il faut remplacer ```GL_ARRAY_BUFFER``` par ```GL_ELEMENT_ARRAY_BUFFER``` si votre tampon contient des indices.
@@ -96,7 +96,7 @@ Une fois que vous avez  fini de vous en servir, c’est à dire une fois sorti d
 Avant même la création du premier buffer, nous avions créé et activé un Vertex Array Object (VAO). Lorsqu’on crée/active un nouveau buffer d’attributs, celui-ci sera automatiquement encapsulé/lié au VAO courant (un peu comme un conteneur qui contient tous les tableaux créés). Cela permet, lors du dessin dans la boucle de rendu, de n'avoir à se référer qu'au VAO pour activer tous les buffers. Par exemple :
 
 
-  ```
+  ```c++
   glBindVertexArray(vaoID);
   glDrawElements( GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0)
   ```
@@ -112,7 +112,7 @@ Le maillage contient 3 buffers d’attributs (positions, normales et couleurs). 
 
 La fonction suivante permet de restreindre la zone de dessin dans la fenêtre courant : ```glViewport(x,y,w,h);```.  ```x,y``` sont les coordonnées entières du pixel en bas à gauche de la zone de dessin. ```w,h``` sont respectivement la largeur et la hauteur, en pixels, de la zone de dessin. Pour dessiner dans une certaine zone, il suffit d’appeler cette fonction avant d’utiliser la commande ```glDrawElements```. Il faut dessiner plusieurs fois avec des appels différents à ```glViewport``` pour dessiner dans plusieurs zones:
 
-  ```
+  ```c++
   glBindVertexArray(vaoID); // On active le VAO
 
   glViewport( ... );
