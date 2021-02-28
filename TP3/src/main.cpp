@@ -23,6 +23,7 @@ void view_control(GLFWwindow *myWindow, mat4 &view_matrix, float dx);
 int main()
 {
   GLFWwindow *myWindow;
+  int windowHeight, windowWidth;
 
   cout << "Debut du programme..." << endl;
 
@@ -98,8 +99,8 @@ int main()
   // Creation des buffers avec le chargement d'un maillage
   //==================================================
   Mesh m("../models/cube.off"); // Lecture du maillage
-  m.vertices.data(); // Acces au tableau des positions
-  m.faces.data();    // acces au tableau des indices des triangles
+  m.normalize();      // Met à l'échelle pour que le maillage remplisse la sphère unité
+  m.colorize();       // Calcule une couleur en chaque sommet
 
   //-------------------------------------------------
   // Initialisation des arrays de données
@@ -261,7 +262,7 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
 
   // Copie des donnees sur la carte graphique (dans colorBufferID)
-  glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(vec3), colors.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, m.colors.size() * sizeof(vec3), m.colors.data(), GL_STATIC_DRAW);
 
   // Obtention de l'ID de l'attribut "in_color" dans programID
   GLuint vertexColorID = glGetAttribLocation(programID, "in_color");
@@ -269,7 +270,7 @@ int main()
   // On autorise et indique a OpenGL comment lire les donnees
   glVertexAttribPointer(vertexColorID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
   glEnableVertexAttribArray(vertexColorID);
-
+/*
   //==================================================
   // Creation d'un nouveau buffer pour les indices des triangles ayant colorBufferID pour identifiant
   //==================================================
@@ -305,20 +306,43 @@ int main()
   {
     indices.push_back(lesIndices[i]);
   }
-  
+  */
   // Creation d'un buffer des indices
   GLuint indiceBufferID;
   glGenBuffers(1, &indiceBufferID);
   cout << "indiceBufferID = " << indiceBufferID << endl;
-
+  /*
   // Definition de indiceBufferID comme le buffer courant de GL_ELEMENT_ARRAY_BUFFER
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
 
   // Copie des donnees sur la carte graphique (dans indiceBufferID)
   // glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), indices.data(), GL_STATIC_DRAW);
+  */
 
   // Version avec maillage
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, m.faces.size() * sizeof(vec3), m.faces.data(), GL_STATIC_DRAW);
+
+  //==================================================
+  // Creation d'un nouveau buffer pour les normales
+  //==================================================
+
+  // Creation d'un buffer des normales
+  GLuint normalBufferID;
+  glGenBuffers(1, &normalBufferID);
+  cout << "normalBufferID = " << normalBufferID << endl;
+
+  // Definition de normalBufferID comme le buffer courant
+  glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
+
+  // Copie des donnees sur la carte graphique (dans normalBufferID)
+  glBufferData(GL_ARRAY_BUFFER, m.normals.size() * sizeof(vec3), m.normals.data(), GL_STATIC_DRAW);
+
+  // Obtention de l'ID de l'attribut "in_normal" dans programID
+  GLuint vertexNormalID = glGetAttribLocation(programID, "in_normal");
+
+  // On autorise et indique a OpenGL comment lire les donnees
+  glVertexAttribPointer(vertexNormalID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+  glEnableVertexAttribArray(vertexNormalID);
 
 
   glBindVertexArray(0); // Désactiver le VAO
@@ -427,10 +451,7 @@ int main()
   glDeleteBuffers(1, &vertexBufferID);
   glDeleteBuffers(1, &colorBufferID);
   glDeleteBuffers(1, &indiceBufferID);
-
-  //==================================================
-  // Todo : Libérer TOUS les buffers que vous avez cree
-  //==================================================
+  glDeleteBuffers(1, &normalBufferID);
 
   cout << "Fin du programme..." << endl;
 

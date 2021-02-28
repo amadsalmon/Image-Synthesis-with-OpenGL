@@ -4,6 +4,7 @@
 // Donnees d'entree
 layout(location=0) in vec3 in_position;
 layout(location=1) in vec3 in_color;
+layout(location=2) in vec3 in_normal;
 
 
 // Donnees de sortie
@@ -21,5 +22,6 @@ void main()
   // gl_Position est definit par defaut dan GLSL
   gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(in_position, 1.0);
 
-  my_color = vec4(in_color, 1.0);
+  //my_color = vec4(in_color, 1.0);
+  my_color = vec4(in_normal, 1.0);
 }
