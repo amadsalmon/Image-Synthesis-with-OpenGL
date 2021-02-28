@@ -23,7 +23,7 @@ void view_control(GLFWwindow *myWindow, mat4 &view_matrix, float dx);
 int main()
 {
   GLFWwindow *myWindow;
-  int windowHeight, windowWidth;
+  int currentWindowHeight, currentWindowWidth;
 
   cout << "Debut du programme..." << endl;
 
@@ -98,7 +98,7 @@ int main()
   //==================================================
   // Creation des buffers avec le chargement d'un maillage
   //==================================================
-  Mesh m("../models/cube.off"); // Lecture du maillage
+  Mesh m("../models/dragon.off"); // Lecture du maillage
   m.normalize();      // Met à l'échelle pour que le maillage remplisse la sphère unité
   m.colorize();       // Calcule une couleur en chaque sommet
 
@@ -124,7 +124,8 @@ int main()
   // glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), GL_STATIC_DRAW);
 
   // Version avec maillage
-  glBufferData(GL_ARRAY_BUFFER, m.vertices.size() * sizeof(vec3), m.vertices.data(), GL_STATIC_DRAW);
+  //glBufferData(GL_ARRAY_BUFFER, m.vertices.size() * sizeof(vec3), m.vertices.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, m.vertices.size() * sizeof(uint), m.vertices.data(), GL_STATIC_DRAW);
 
 
   // Obtention de l'ID de l'attribut "in_position" dans programID
@@ -144,7 +145,7 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
 
   // Copie des donnees sur la carte graphique (dans colorBufferID)
-  glBufferData(GL_ARRAY_BUFFER, m.colors.size() * sizeof(vec3), m.colors.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, m.colors.size() * sizeof(uint), m.colors.data(), GL_STATIC_DRAW);
 
   // Obtention de l'ID de l'attribut "in_color" dans programID
   GLuint vertexColorID = glGetAttribLocation(programID, "in_color");
@@ -170,7 +171,7 @@ int main()
   
 
   // Version avec maillage
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, m.faces.size() * sizeof(vec3), m.faces.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, m.faces.size() * sizeof(uint), m.faces.data(), GL_STATIC_DRAW);
 
   //==================================================
   // Creation d'un nouveau buffer pour les normales
@@ -194,7 +195,6 @@ int main()
   glVertexAttribPointer(vertexNormalID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
   glEnableVertexAttribArray(vertexNormalID);
 
-
   glBindVertexArray(0); // Désactiver le VAO
 
   //------------------------------------------------
@@ -213,6 +213,12 @@ int main()
 
   GLuint MmatrixID = glGetUniformLocation(programID, "ModelMatrix");
   cout << "MmatrixID = " << MmatrixID << endl;
+
+  GLuint ToDrawID = glGetUniformLocation(programID, "ToDraw");
+  cout << "ToDrawID = " << ToDrawID << endl;
+
+  GLuint CurrentTimeID = glGetUniformLocation(programID, "CurrentTime");
+  cout << "CurrentTimeID = " << CurrentTimeID << endl;
 
   //==================================================
   //=========== Debut des choses serieuses ===========
@@ -239,7 +245,8 @@ int main()
     prec_time = cur_time;
     cur_time = glfwGetTime() - init_time;
     double delta_time = cur_time - prec_time;
-    sprintf(title, "INFO4 - SI - TP3 - %2.0f FPS", 1.0 / delta_time);
+    double fps = 1.0 / delta_time;
+    sprintf(title, "INFO4 - SI - TP3 - %2.0f FPS", fps);
     glfwSetWindowTitle(myWindow, title);
 
     view_control(myWindow, view_matrix, speed * delta_time);
@@ -256,10 +263,43 @@ int main()
     glUniformMatrix4fv(VmatrixID, 1, GL_FALSE, value_ptr(view_matrix));
     glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
 
-    glBindVertexArray(vaoID); // On active le VAO
+    
+    cout.flush();
 
+    glBindVertexArray(vaoID); // On active le VAO
+    //glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
+
+
+    // Récupération de la taille actuelle de la fenêtre
+    glfwGetWindowSize(myWindow, &currentWindowWidth, &currentWindowHeight);
+    cout << "\rcurrentWindowWidth= " << currentWindowWidth << ", currentWindowHeight=" << currentWindowHeight << "\r";
+
+
+    // Envoi du temps courant au vertex shader
+    glUniform1f(CurrentTimeID, cur_time);
+
+
+    // Dessin en haut à droite --------
+    glViewport(currentWindowWidth/2, currentWindowHeight/2, currentWindowWidth/2, currentWindowHeight/2);
+    glUniform1i(ToDrawID, 1); // Modification de la valeur de dessin
     glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
 
+    // Dessin en haut à gauche --------
+    glViewport(0, currentWindowHeight/2, currentWindowWidth/2, currentWindowHeight/2);
+    glUniform1i(ToDrawID, 2); // Modification de la valeur de dessin
+    glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
+
+    // Dessin en bas à gauche --------
+    glViewport(0, 0, currentWindowWidth/2, currentWindowHeight/2);
+    glUniform1i(ToDrawID, 3); // Modification de la valeur de dessin
+    glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
+
+    // Dessin en bas à droite --------
+    glViewport(currentWindowWidth/2, 0, currentWindowWidth/2, currentWindowHeight/2);
+    glUniform1i(ToDrawID, 4); // Modification de la valeur de dessin
+    glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, 0);
+    
+    
     glBindVertexArray(0); // On désactive le VAO
 
     // Echange des zones de dessin buffers
