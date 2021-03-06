@@ -235,7 +235,7 @@ int main() {
     // Nettoyage de la zone de dessin (couleurs+profondeurs)
     int w,h;
     glfwGetWindowSize( myWindow, &w, &h);
-    glViewport(0,0,w,h);
+    //glViewport(0,0,w,h);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -265,7 +265,7 @@ int main() {
     glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
     
     // set viewport, enable VAO and draw 
-    glViewport(0,0,w,h);
+    //glViewport(0,0,w,h);
     glBindVertexArray(vaoID);
     glDrawElements(GL_TRIANGLES,m.faces.size(),GL_UNSIGNED_INT,0);
     glBindVertexArray(0);
