@@ -15,6 +15,9 @@
 #define WIDTH 1000.0f
 #define HEIGHT 800.0f
 
+#define SHADING_DE_GOURAUD 1
+#define SHADING_DE_PHONG 2
+
 using namespace glm;
 using namespace std;
 
@@ -89,7 +92,20 @@ int main() {
   // Initialisation du shader programm
     
   // Compilation du shader programm
-  GLuint programID = LoadShaders( "../shader/vertex.glsl", "../shader/fragment.glsl" );
+  GLuint programID;
+  int choix_shader = SHADING_DE_GOURAUD; // SHADING_DE_GOURAUD ou SHADING_DE_PHONG
+  switch (choix_shader)
+  {
+    case SHADING_DE_PHONG:
+      cout << "Chargement du shading de Phong..." << endl;
+      programID = LoadShaders( "../shader/vertex_phong.glsl", "../shader/fragment_phong.glsl" );
+      break;
+    
+    default: /* Par défaut, charger le shading de Gouraud*/
+      cout << "Chargement du shading de Gouraud..." << endl;
+      programID = LoadShaders( "../shader/vertex_gouraud.glsl", "../shader/fragment_gouraud.glsl" );
+      break;
+  }
   cout << "programID = " << programID << endl;
 
 
