@@ -43,4 +43,5 @@ TP1/models
 *.icloud
 __MACOSX
 *.zip
-TP3/.vscode/settings.json
+*/.vscode/*
+
