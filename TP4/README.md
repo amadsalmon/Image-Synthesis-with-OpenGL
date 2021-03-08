@@ -6,8 +6,8 @@
 
 ### Choix du modèle d'illumination
 
-Afin de faciliter le passage entre les deux modèles d'illumination et afin d'éviter de devoir changer manuellement le nom des shaders à charger selon le modèle voulu, nous mettons en place une variable `choix_shader` qui peut prendre comme valeur les constantes `SHADING_DE_GOURAUD` ou `SHADING_DE_PHONG`. Selon `choix_shader`, le programme `main.cpp` charge le shader program voulu.  
-Par exemple, pour choisir d'illuminer le dessin avec un shader de Phong, il suffit, (ligne 96 du `main.cpp`), d'écrire `int choix_shader = SHADING_DE_GOURAUD;`.
+Afin de faciliter le passage entre les deux modèles d'illumination et afin d'éviter de devoir changer manuellement le nom des shaders à charger selon le modèle voulu, nous mettons en place une variable `choix_shader` qui peut prendre comme valeur les constantes `SHADING_DE_GOURAUD`, `SHADING_DE_PHONG`, `SHADING_DE_PHONG_FLAT`. Selon `choix_shader`, le programme `main.cpp` charge le shader program voulu.  
+Par exemple, pour choisir d'illuminer le dessin avec un shader de Phong AVEC interpolation des normales, il suffit, _(ligne 96 du `main.cpp`)_, d'écrire `int choix_shader = SHADING_DE_GOURAUD;`.
 
 ### Nom des variables
 
@@ -73,6 +73,28 @@ Le résultat est le beau blob suivant :
 <img src="README.assets/phong_resultat1.png" alt="Résultat du modèle d'illumination de Phong sur blob2" style="zoom:20%;" />
 
 ## Flat shading
+On empêche OpenGL d'interpoler les normales le shading de Phong en placant le mot-clé `flat` devant la déclaration de l’attribut concerné, c'est à dire devant le `out` dans le vertex shader et devant le `in` dans le fragment shader.  
+Ainsi, dans `vertex_flat_phong.glsl` : 
+```c++
+/* -- Données en sortie -- */
+flat out vec4 posInWorldSpace;       // point p (position) dans le repère monde
+flat out vec4 normalInWorldSpace;    // normales dans le repère monde
+flat out vec4 cameraPosInWorldSpace; // caméra dans le repère monde
+``` 
+
+Et dans le `fragment_flat_phong.glsl` :   
+```c++
+/* -- Données en entrée -- */
+flat in vec4 posInWorldSpace;        
+flat in vec4 normalInWorldSpace;
+flat in vec4 cameraPosInWorldSpace;
+```
+Afin de différencier ce modèle des autres, les objets qui en seront peints le seront d'une couleur verte. Le résultat est le suivant :
+<img src="README.assets/phong_flat_resultat1.png" alt="Résultat du modèle d'illumination de Phong sur blob2 SANS interpolation des normales (flat)" style="zoom:20%;" />
+
+<img src="README.assets/phong_flat_resultat2.png" alt="Résultat du modèle d'illumination de Phong sur max.off SANS interpolation des normales (flat)" style="zoom:20%;" />
+On voit effectivement que les surfaces ne sont plus lisses comme avant, mais plutôt représentées par des triangles plats aux arêtes bien définies.  
+
 
 ## Autres effets
 

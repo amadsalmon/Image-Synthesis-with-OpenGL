@@ -17,6 +17,7 @@
 
 #define SHADING_DE_GOURAUD 1
 #define SHADING_DE_PHONG 2
+#define SHADING_DE_PHONG_FLAT 3
 
 using namespace glm;
 using namespace std;
@@ -93,12 +94,17 @@ int main() {
     
   // Compilation du shader programm
   GLuint programID;
-  int choix_shader = SHADING_DE_PHONG; // SHADING_DE_GOURAUD ou SHADING_DE_PHONG
+  int choix_shader = SHADING_DE_PHONG_FLAT; // SHADING_DE_GOURAUD, SHADING_DE_PHONG, ou SHADING_DE_PHONG_FLAT
   switch (choix_shader)
   {
     case SHADING_DE_PHONG:
       cout << "Chargement du shading de Phong..." << endl;
       programID = LoadShaders( "../shader/vertex_phong.glsl", "../shader/fragment_phong.glsl" );
+      break;
+
+    case SHADING_DE_PHONG_FLAT:
+      cout << "Chargement du shading de Phong SANS interpolation des normales (FLAT)..." << endl;
+      programID = LoadShaders( "../shader/vertex_phong_flat.glsl", "../shader/fragment_phong_flat.glsl" );
       break;
     
     default: /* Par défaut, charger le shading de Gouraud*/
@@ -111,7 +117,7 @@ int main() {
 
   //-------------------------------------------------
   // Initialisation du maillage
-  string file_name("../models/blob2.off");
+  string file_name("../models/max.off");
   cout << "chargement de '" << file_name << "'..." << endl;
   Mesh m(file_name.c_str());
   m.normalize();
