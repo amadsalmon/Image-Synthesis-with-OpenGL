@@ -46,7 +46,7 @@ En augmentant la brillance à `s = 10.0`, on obtient des tâches de spécularit�
 <img src="README.assets/gouraud_speculaire_s=10.png" alt="Composante spéculaire avec brillance à 10" style="zoom:20%;" />
 
 En additionnant les trois composantes avec `L_f = ambiant + diffus + speculaire`, on obtient un objet dont le modèle d'illumination suit le module de Gouraud :
-<img src="README.assets/gouraud_resultat1.png" alt="Résultat du modèle d'illumination de Gouraud" style="zoom:20%;" />
+<img src="README.assets/gouraud_resultat1.png" alt="Résultat du modèle d'illumination de Gouraud sur blob2" style="zoom:20%;" />
 
 
 ## Shading de Phong
