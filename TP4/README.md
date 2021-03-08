@@ -51,7 +51,26 @@ En additionnant les trois composantes avec `L_f = ambiant + diffus + speculaire`
 
 ## Shading de Phong
 
-On implémente le shading de Phong grâce aux shaders `vertex_phong.glsl` et `fragment_phong.glsl`.
+On implémente le shading de Phong grâce aux shaders `vertex_phong.glsl` et `fragment_phong.glsl`.  
+Dans le `vertex_phong.glsl`, on calcule et fait sortir les variables suivantes : 
+```c++
+/* -- Données en sortie -- */
+out vec4 posInWorldSpace;       // point p (position) dans le repère monde
+out vec4 normalInWorldSpace;    // normales dans le repère monde
+out vec4 cameraPosInWorldSpace; // caméra dans le repère monde
+```
+Et on les fait entrer dans le `fragment_phong.glsl` :   
+```c++
+/* -- Données en entrée -- */
+in vec4 posInWorldSpace;        
+in vec4 normalInWorldSpace;
+in vec4 cameraPosInWorldSpace;
+```
+Pour différencier l'objet dessiné lorsqu'il est illuminé par le shading de Gouraud de lorsqu'il l'est par le shading de Phong, ici le shading de Gouraud donne une couleur violette à l'objet.  
+
+Le résultat est le beau blob suivant :  
+<img src="README.assets/phong_resultat2.png" alt="Résultat du modèle d'illumination de Phong" style="zoom:20%;" />
+<img src="README.assets/phong_resultat1.png" alt="Résultat du modèle d'illumination de Phong sur blob2" style="zoom:20%;" />
 
 ## Flat shading
 

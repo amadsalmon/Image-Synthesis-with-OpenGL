@@ -93,7 +93,7 @@ int main() {
     
   // Compilation du shader programm
   GLuint programID;
-  int choix_shader = SHADING_DE_GOURAUD; // SHADING_DE_GOURAUD ou SHADING_DE_PHONG
+  int choix_shader = SHADING_DE_PHONG; // SHADING_DE_GOURAUD ou SHADING_DE_PHONG
   switch (choix_shader)
   {
     case SHADING_DE_PHONG:
