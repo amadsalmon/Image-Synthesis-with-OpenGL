@@ -83,10 +83,12 @@ int main() {
 
   //-------------------------------------------------
   // Definition des sommets et indices du maillage (on recouvre l'ecran avec 4 sommets/2 triangles)
-  vec3 vertices[] = {vec3(-1.0, -1.0, 0.0),
-		     vec3(-1.0,  1.0, 0.0),
-		     vec3( 1.0, -1.0, 0.0),
-		     vec3( 1.0,  1.0, 0.0)};
+  vec3 vertices[] = {
+      vec3(-1.0, -1.0, 0.0), // 0 (inférieur, gauche)       1-------3
+      vec3(-1.0,  1.0, 0.0), // 1 (supérieur, gauche)       |       |
+      vec3( 1.0, -1.0, 0.0), // 2 (inférieur, droit)        |       |
+      vec3( 1.0,  1.0, 0.0)  // 3 (supérieur, droit)        0-------2
+      };
 
   unsigned int indices[] = {0, 1, 3, 0, 3, 2};
 
@@ -178,7 +180,7 @@ int main() {
 
     
     // set viewport, enable VAO and draw 
-    glViewport(0,0,w,h);
+    //glViewport(0,0,w,h); // En commentaire car cela cause des problèmes d'affichage sur ma machine (contact par mail à ce propos)
     glBindVertexArray(vaoID);
     glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
     glBindVertexArray(0);
