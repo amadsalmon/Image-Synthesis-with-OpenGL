@@ -1,9 +1,10 @@
 // Version d'OpenGL
 #version 330
 
-// Donnees d'entree
+/* -- Données en entrée -- */
 in vec3 in_position;
 
+/* -- Données en sortie -- */
 out vec2 coords;
 
 // Fonction appellee pour chaque sommet
