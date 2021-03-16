@@ -1,10 +1,14 @@
 // Version d'OpenGL
 #version 330
 
+/* -- Données en entrée -- */
 in vec2 coords; 
 
+/* -- Données en sortie -- */
 out vec4 frag_color;
 
+/* -- Paramètres -- */
+uniform float currentTime;
 /**
  * Retourne un vecteur composé de la partie réelle et de la partie imaginaire 
  * du carré du nombre complexe c.
@@ -50,8 +54,12 @@ float modulusOfComplexNumber(vec2 c) {
  * à partir des entiers S (valeur seuil) et N,
  * ainsi que de c, la position du point à colorier .
  */
+ /*
 vec4 colormap(float K) {
-  return vec4(1.0-K, 1.0-K, 1.0-K, 1.0);
+  return vec4(cos(currentTime*K)/currentTime, 1-(K*cos(currentTime)), sin(currentTime*K), 1.0);
+}*/
+vec4 colormap(float n){
+  return vec4(0.5 + 0.5*cos(2.7+n*30.0 + vec3(0.0,.6,1.0)),1.0);
 }
 
 // Fonction appellee pour chaque fragment
@@ -60,7 +68,7 @@ void main() {
   int N = 100;
   int S = 2;
 
-  vec2 z = vec2(0,0);
+  vec2 z = vec2(currentTime/50,currentTime/50);
   int i;
   for(i = 0 ; i < N ; i++){
     z = raiseComplexNumberToPower2(z) + coords.xy;

@@ -83,6 +83,9 @@ int main() {
   GLuint programID = LoadShaders( "../shader/vertex.glsl", "../shader/fragment.glsl" );
   cout << "programID = " << programID << endl;
 
+  // Obtention du UniformLocation pour le temps (sert à l'animation)
+  GLuint currentTimeID = glGetUniformLocation(programID, "currentTime");
+
   //-------------------------------------------------
   // Definition des sommets et indices du maillage (on recouvre l'ecran avec 4 sommets/2 triangles)
   vec3 vertices[] = {
@@ -213,6 +216,9 @@ int main() {
     glUniformMatrix4fv(VmatrixID, 1, GL_FALSE, value_ptr(view_matrix));
     glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
     
+    // Transmission du temps au fragment shader pour l'animation
+    glUniform1f(currentTimeID, (float) cur_time);
+
     // set viewport, enable VAO and draw 
     //glViewport(0,0,w,h); // En commentaire car cela cause des problèmes d'affichage sur ma machine (contact par mail à ce propos)
     glBindVertexArray(vaoID);
