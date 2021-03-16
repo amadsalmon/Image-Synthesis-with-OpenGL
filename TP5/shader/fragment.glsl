@@ -9,6 +9,14 @@ out vec4 frag_color;
 
 /* -- Paramètres -- */
 uniform float currentTime;
+
+/**
+ * Retourne le module du nombre complexe c = x + iy.
+ */
+float modulusOfComplexNumber(vec2 c) {
+  return sqrt(c.x * c.x + c.y * c.y);
+}
+
 /**
  * Retourne un vecteur composé de la partie réelle et de la partie imaginaire 
  * du carré du nombre complexe c.
@@ -34,19 +42,16 @@ vec2 raiseComplexNumberToPower2(vec2 c) {
  *            =    Re(z^N)     +      Im(z^N)
  */
 vec2 raiseComplexNumberToPowerN(vec2 c, int N) {
-  float r = sqrt(c.x * c.x + c.y * c.y);
-  float t = atan(c.x / c.y);
+  if (N < 0 ) {
+      return vec2(0, 0);
+  } else if (N == 1) {
+      return c;
+  }
+  float r = modulusOfComplexNumber(c);
+  float t = atan(c.x , c.y);
   float real = pow(r, N) * cos(N*t);
   float imaginary = pow(r, N) * sin(N*t);
-  // return vec2(real, imaginary);
-  return vec2(c);
-}
-
-/**
- * Retourne le module du nombre complexe c.
- */
-float modulusOfComplexNumber(vec2 c) {
-  return sqrt(c.x * c.x + c.y * c.y);
+  return vec2(real, imaginary);
 }
 
 /**
