@@ -16,6 +16,8 @@
 using namespace glm;
 using namespace std;
 
+void view_control( GLFWwindow* myWindow, mat4& view_matrix, float dx);
+
 int main() {
   GLFWwindow* myWindow;
 
@@ -136,6 +138,34 @@ int main() {
   glBindVertexArray(0); // Désactiver le VAO
 
 
+
+  //-------------------------------------------------
+  // Initialisation des matrices MVP
+
+    
+  // Definition des matrices de transformation
+  mat4 model_matrix = mat4(1.0);
+  mat4 view_matrix = lookAt(
+      vec3(0.f, 0.f, 2.f),  // PLACE DE LA CAMERA
+      vec3(0.f),            // POINT QUE LA CAMERA REGARDE
+      vec3(0.f, 1.f, 0.f)); // VERTICALE DE LA CAMERA
+  mat4 projection_matrix = perspective(
+      45.0f,          // ANGLE DE VUE
+      WIDTH / HEIGHT, // RAPPORT D'ASPECT DE LA FENETRE
+      0.1f,           // LIMITE PROCHE DE LA PYRAMIDE DE VUE
+      100.f);         //  LIMITE LOINTAINE DE LA PYRAMIDE DE VUE
+
+
+  GLuint MmatrixID = glGetUniformLocation(programID, "ModelMatrix");
+  cout << "MmatrixID = " << MmatrixID << endl;
+  
+  GLuint VmatrixID = glGetUniformLocation(programID, "ViewMatrix");
+  cout << "VmatrixID = " << VmatrixID << endl;
+
+  GLuint PmatrixID = glGetUniformLocation(programID, "ProjectionMatrix");
+  cout << "PmatrixID = " << PmatrixID << endl;
+
+
   //==================================================
   //=========== Debut des choses serieuses ===========
   //==================================================
@@ -146,6 +176,7 @@ int main() {
   double init_time = glfwGetTime();
   double prec_time = init_time;
   double cur_time = init_time;
+  double speed = 0.5;
     
   char title[100];
   // Boucle de dessin
@@ -167,7 +198,7 @@ int main() {
     glfwSetWindowTitle( myWindow, title);
 
     // TODO: Interaction avec la camera 
-	
+    view_control( myWindow, view_matrix, speed * delta_time);
 
     //==================================================
     //===================== Dessin =====================
@@ -176,8 +207,11 @@ int main() {
     // Definition de programID comme le shader courant
     glUseProgram(programID);
 
-    // TODO: Transmission des variables uniform aux shaders
-
+    /*------ Transmission des variables uniform aux shaders ------*/
+    // Transmission des matrices au vertex shader
+    glUniformMatrix4fv(PmatrixID, 1, GL_FALSE, value_ptr(projection_matrix));
+    glUniformMatrix4fv(VmatrixID, 1, GL_FALSE, value_ptr(view_matrix));
+    glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
     
     // set viewport, enable VAO and draw 
     //glViewport(0,0,w,h); // En commentaire car cela cause des problèmes d'affichage sur ma machine (contact par mail à ce propos)
@@ -223,4 +257,57 @@ int main() {
   return EXIT_SUCCESS;
 }
 
+/**
+ * Effectue des changements de point de vue d'importance dx grâce à des transformations de la matrice de vue view_matrix selon les touches du clavier pressées.
+ * Attention : les touches sont celles du clavier QWERTY.
+ * */
+void view_control(GLFWwindow *aWindow, mat4 &view_matrix, float dx)
+{
+  // Translation vers le haut
+  if (glfwGetKey(aWindow, GLFW_KEY_UP) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(0.0, 1.0, 0.0, 0.0) * dx;
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
 
+  // Translation vers le bas
+  if (glfwGetKey(aWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(0.0, 1.0, 0.0, 0.0) * (-dx);
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
+
+  // Translation vers la droite
+  if (glfwGetKey(aWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(-1.0, 0.0, 0.0, 0.0) * (-dx);
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
+
+  // Translation vers la gauche
+  if (glfwGetKey(aWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(-1.0, 0.0, 0.0, 0.0) * dx;
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
+
+  // Zoom avant - (touche "Z" du clavier QWERTY, touche "W" du clavier AZERTY) 
+  if (glfwGetKey(aWindow, GLFW_KEY_Z) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(0.0, 0.0, 1.0, 0.0) * dx;
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
+
+  // Zoom avant - (touche "X")
+  if (glfwGetKey(aWindow, GLFW_KEY_X) == GLFW_PRESS)
+  {
+    vec4 axis = vec4(0.0, 0.0, 1.0, 0.0) * (-dx);
+    axis = inverse(view_matrix) * axis;
+    view_matrix = translate(view_matrix, vec3(axis));
+  }
+}
