@@ -1,4 +1,4 @@
-# TP4 - Fragment shader et fractales
+# TP5 - Fragment shader et fractales
 
 **Amad Salmon | Synthèse d’Image - Polytech Grenoble, INFO4, 2020-2021**
 
@@ -11,7 +11,7 @@ Si l'on abaisse $b$ à $0$, autrement dit si on annule la composante bleue, le r
 <img src="./Rapport.assets/rendu-initial_3.png" alt="Rendu initial original avec composante bleue à 0%" style="text-align:center;zoom:20%;" />
 
 
-
+<div style="page-break-after: always; break-after: page;"></div>
 ## Fractale de Mandelbrot
 
 On ajoute dans le fragment shader les deux fonctions auxilliaires suivantes :
@@ -36,7 +36,7 @@ float modulusOfComplexNumber(vec2 c) {
 
 On implémente `colormap()` avec comme paramètre supplémentaire l entier supplémentaire `modeDeColoration` qui peut prendre comme valeur 1, 2, ou 3 afin d'afficher différentes couleurs.
 
-```c++
+​```c++
 /**
  * Calcule une couleur selon l'ensemble de Mandelbrot
  * à partir des entiers S (valeur seuil) et N,
@@ -98,6 +98,9 @@ Pour `N=100` et `S=2`, le rendu est alors :
 En modifiant `N=500` et `S=100`, le rendu devient :
 <img src="./Rapport.assets/n500s100.png" alt="Ensemble de Mandelbrot colorié - N=500, S=100" style="text-align:center;zoom:40%;" />
 
+
+<div style="page-break-after: always; break-after: page;"></div>
+
 ### Variantes
 
 #### Ensemble de Mandelbrot d'ordre $k$
@@ -120,8 +123,7 @@ vec2 raiseComplexNumberToPowerN(vec2 c, int N) {
 Explication :  
 Soit $z = a + ib$ avec $a$ et $b$ réels.
 On peut noter  $z = a + ib = r*(\cos(\theta) + i\sin(\theta))$,
-où $r^2 = a^2 + b^2$, et $\tan(\theta) = b / a$.  
-Alors,  
+où $r^2 = a^2 + b^2$, et $\tan(\theta) = b / a$. Alors,  
 $$
 z^n = (a+ib)^n \\
     = r^n  (\cos(n\theta) + i  \sin(n\theta)) \\
@@ -132,7 +134,9 @@ On comprend donc que `raiseComplexNumberToPowerN(z,n)` retourne alors un vecteur
 
 En élevant $z$ à la puissance 5, on obtient le rendu suivant (coloration 2):
 
-<img src="./Rapport.assets/zpower5.png" alt="Ensemble de Mandelbrot à z^5 - N=100, S=2" style="text-align:center;zoom:40%;" />
+<img src="./Rapport.assets/zpower5.png" alt="Ensemble de Mandelbrot à z^5 - N=100, S=2" style="text-align:center;zoom:9%;" />
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 #### Ensemble de Julia
 
@@ -154,6 +158,8 @@ float juliaSet(int N, int S) {
 Pour le mode de coloration 2, `N=100` et `S=2`, le rendu pour l'ensemble de Julia est le suivant :
 
 <img src="./Rapport.assets/julia.png" alt="Ensemble de Julia - N=100, S=2" style="text-align:center;zoom:40%;" />
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 ### Contrôle de la caméra
 
@@ -183,6 +189,3 @@ Le rendu semble éventuellement séparer l'ensemble en îlots :
 #### Animation du mapping de couleur
 
 On implémente l'animation du mapping de couleur en fonction du temps dans le mode 3 de la fonction `colormap()`. Cette animation se fait grâce à des cosinus et des sinus : `vec4(cos(currentTime*k)/currentTime, 1-(k*cos(currentTime)), sin(currentTime*k), 1.0)`.
-
-
-<div style="page-break-after: always; break-after: page;"></div>
