@@ -204,7 +204,33 @@ int main() {
 
 
   //==================================================
-  // TODO : créer la texture 
+  /* ---------------- Création de la texture ---------------- */
+  // Charger l'image
+  QImage img("../textures/chessMulti.jpg");
+  // Vérifier que l’image est bien chargée
+  if(img.isNull()) {
+    std::cerr << "Error Loading Texture !" << std::endl; exit(EXIT_FAILURE);
+  }
+  // Déclarer un identifiant
+  GLuint textureID;
+  // Allouer la texture sur le GPU
+  glGenTextures(1, &textureID); 
+  // La définir comme texture courante
+  glBindTexture(GL_TEXTURE_2D, textureID);
+  // --- Définir des paramètres de filtre ---
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  // Transmettre l'image au GPU : 
+  glTexImage2D(GL_TEXTURE_2D, 0,
+    GL_RGBA32F,
+    img.width(),
+    img.height(), 0,
+    GL_RGBA, GL_UNSIGNED_BYTE,
+    (const GLvoid*) img.bits());
+  GLuint texSamplerID = glGetUniformLocation( programID, "texSampler" );
+
   // TODO : recuperer l'identifiant de "texSampler" dans le fragment shader 
   //==================================================
 
@@ -255,14 +281,16 @@ int main() {
     glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
 
     //==================================================
-    // TODO : envoie de la texture au shader 
-    // Note: la texture est déjà sur GPU, il suffit de lier la texture
-    // a une unité, puis de spécifier cette unité au shader 
+    // TODO : envoi de la texture au shader 
+    // Note: la texture est déjà sur GPU, il suffit de lier la texture a une unité, puis de spécifier cette unité au shader 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glUniform1i(texSamplerID, 0);
     //==================================================
     
     
     // set viewport, enable VAO and draw 
-    glViewport(0,0,w,h);
+    // glViewport(0,0,w,h); // mis en commentaire car cause des problèmes sur ma machine (contact par e-mail à ce propos)
     glBindVertexArray(vaoID);
     glDrawElements(GL_TRIANGLES,m.faces.size(),GL_UNSIGNED_INT,(void*)0);
     glBindVertexArray(0);
@@ -299,6 +327,8 @@ int main() {
   glDeleteBuffers(1, &texcoordBufferID);
   glDeleteBuffers(1, &indiceBufferID);
 
+  // Élimintation de la texture
+  glDeleteTextures(1, &textureID);
 
   cout << "Fin du programme..." << endl;
     
