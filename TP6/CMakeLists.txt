@@ -2,7 +2,7 @@
 cmake_minimum_required (VERSION 2.9)
 project(SI_INFO4)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets OpenGL REQUIRED)
 set(QT_USE_QTOPENGL TRUE)
 
 find_package(OpenGL REQUIRED)
@@ -44,5 +44,5 @@ file(
 link_directories(${GLFW_LIBRARY_DIRS} ${GLEW_LIBRARY_DIRS})
 add_executable(si_info4 ${source_files} )
 
-target_link_libraries(si_info4 ${ALL_LIBS} Qt5::Widgets)
+target_link_libraries(si_info4 Qt5::Widgets Qt5::OpenGL ${ALL_LIBS})
 

@@ -206,11 +206,12 @@ int main() {
   //==================================================
   /* ---------------- Création de la texture ---------------- */
   // Charger l'image
-  QImage img("../textures/chessMulti.jpg");
+  QImage img("../textures/earth_HD.jpg");
   // Vérifier que l’image est bien chargée
   if(img.isNull()) {
     std::cerr << "Error Loading Texture !" << std::endl; exit(EXIT_FAILURE);
   }
+  img = QGLWidget::convertToGLFormat(img);
   // Déclarer un identifiant
   GLuint textureID;
   // Allouer la texture sur le GPU
