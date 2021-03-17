@@ -39,7 +39,7 @@ vec2 raiseComplexNumberToPower2(vec2 c) {
  * Alors, z^N = (a+i*b)^N
  *            = r^N * (cos(Nt) + i * sin(Nt))
  *            = r^N * cos(Nt)  +  i * r^N * sin(Nt)
- *            =    Re(z^N)     +      Im(z^N)
+ *            =    Re(z^N)     +  i * Im(z^N)
  */
 vec2 raiseComplexNumberToPowerN(vec2 c, int N) {
   if (N < 0 ) {
@@ -59,30 +59,61 @@ vec2 raiseComplexNumberToPowerN(vec2 c, int N) {
  * à partir des entiers S (valeur seuil) et N,
  * ainsi que de c, la position du point à colorier .
  */
- /*
-vec4 colormap(float K) {
-  return vec4(cos(currentTime*K)/currentTime, 1-(K*cos(currentTime)), sin(currentTime*K), 1.0);
-}*/
-vec4 colormap(float n){
-  return vec4(0.5 + 0.5*cos(2.7+n*30.0 + vec3(0.0,.6,1.0)),1.0);
+ vec4 colormap(float k, int modeDeColoration){
+  switch (modeDeColoration) {
+    case 1:   // coloration en nuances de gris
+      return vec4(1-k, 1-k, 1-k, 1.0);
+    case 2:   // coloration complexe
+      return vec4(cos(k * 10.0), cos(k * 20.0), cos(k * 30.0), 1.0);
+    case 3:   // coloration animée en fonction du temps 
+      return vec4(cos(currentTime*k)/currentTime, 1-(k*cos(currentTime)), sin(currentTime*k), 1.0);
+    default:
+      return vec4(k, k, 1-k, 1.0);
+  }
 }
 
-// Fonction appellee pour chaque fragment
-void main() {
-
-  int N = 100;
-  int S = 2;
-
-  vec2 z = vec2(currentTime/50,currentTime/50);
+float mandelbrotSet(int N, int S) {
+  vec2 z = vec2(0.0, 0.0);
   int i;
   for(i = 0 ; i < N ; i++){
     z = raiseComplexNumberToPower2(z) + coords.xy;
     if(modulusOfComplexNumber(z) > S) break;
   }
 
-  float res = 1.0 * i / N;
+  return 1.0 * i / N;
+}
+
+float mandelbrotSetAnimated(int N, int S) {
+  vec2 z = vec2(currentTime/50,currentTime/50);
+  int i;
+  for(i = 0 ; i < N ; i++){
+    z = raiseComplexNumberToPower2(z) + coords.xy;
+    if(modulusOfComplexNumber(z) > S) break;
+  }
+  return 1.0 * i / N;
+}
+
+float juliaSet(int N, int S) {
+  vec2 z = coords;
+  int i;
+  for(i = 0 ; i < N ; i++){
+    z = raiseComplexNumberToPower2(z) + vec2(0.5, 0.5);
+    if(modulusOfComplexNumber(z) > S) break;
+  }
+
+  return 1.0 * i / N;
+}
+
+// Fonction appellee pour chaque fragment
+void main() {
+
+  int N = 100;  // Nombre maximum d'itérations
+  int S = 2;    // Valeur seuil
+
+  // float res = mandelbrotSet(N, S);
+  // float res = juliaSet(N, S);
+  float res = mandelbrotSetAnimated(N, S);
 
   // Affichage de la coordonnee du fragment/pixel
-  // frag_color = vec4(coords, 0.5, 1.0);
-  frag_color = colormap(res);
+  frag_color = colormap(res, 2);
 }
