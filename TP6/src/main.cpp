@@ -3,8 +3,8 @@
 #include <string>
 #include "shader.h" // Help to load shaders from files
 // Include GLEW : Always include it before glfw.h et gl.h :)
-#include <GL/glew.h>    // OpenGL Extension Wrangler Library : http://glew.sourceforge.net/ 
-#include <GLFW/glfw3.h>    // Window, keyboard, mouse : http://www.glfw.org/
+#include <GL/glew.h>    // OpenGL Extension Wrangler Library : http://glew.sourceforge.net/
+#include <GLFW/glfw3.h> // Window, keyboard, mouse : http://www.glfw.org/
 #include <glm/glm.hpp>  // OpenGL Mathematics : http://glm.g-truc.net/0.9.5/index.html
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -18,27 +18,28 @@
 using namespace glm;
 using namespace std;
 
-void view_control( GLFWwindow* myWindow, mat4& view_matrix, float dx);
-void create_cube(Mesh* output);
-void create_sphere(Mesh* output);
+void view_control(GLFWwindow *myWindow, mat4 &view_matrix, float dx);
+void create_cube(Mesh *output);
+void create_sphere(Mesh *output);
 
-int main() {
-  GLFWwindow* myWindow;
-  
+int main()
+{
+  GLFWwindow *myWindow;
+
   cout << "Debut du programme..." << endl;
 
   //==================================================
   //============= Creation de la fenetre =============
   //==================================================
-  
 
   // Initialisation de GLFW
-  if(!glfwInit()) {
+  if (!glfwInit())
+  {
     cout << "Echec de l'initialisation de GLFW" << endl;
     exit(EXIT_FAILURE);
   }
-  
-  glfwWindowHint(GLFW_SAMPLES, 4); // Anti Aliasing
+
+  glfwWindowHint(GLFW_SAMPLES, 4);               // Anti Aliasing
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -46,7 +47,8 @@ int main() {
 
   // Ouverture d'une fenêtre
   // et creation d'un contexte OpenGL
-  if (!(myWindow = glfwCreateWindow( WIDTH, HEIGHT, "SI_INFO4", NULL, NULL))) {
+  if (!(myWindow = glfwCreateWindow(WIDTH, HEIGHT, "SI_INFO4", NULL, NULL)))
+  {
     cout << "Echec de l'ouverture de fenetre OpenGL" << endl;
     glfwTerminate();
     exit(EXIT_FAILURE);
@@ -54,29 +56,28 @@ int main() {
   glfwMakeContextCurrent(myWindow);
 
   // Autorise GLFW a recevoir les appuis de touche
-  glfwSetInputMode( myWindow, GLFW_STICKY_KEYS, GL_TRUE);
+  glfwSetInputMode(myWindow, GLFW_STICKY_KEYS, GL_TRUE);
 
   // Initialisation de  GLEW
   glewExperimental = GL_TRUE;
-  if(glewInit() != GLEW_OK) {
+  if (glewInit() != GLEW_OK)
+  {
     cout << "Echec de l'initialisation de GLEW" << endl;
     exit(EXIT_FAILURE);
   }
 
   // Verification des donnees du contexte OpenGL
-  const GLubyte* renderer = glGetString (GL_RENDERER);
+  const GLubyte *renderer = glGetString(GL_RENDERER);
   cout << "Carte Graphique : " << renderer << endl;
-  
-  const GLubyte* version = glGetString (GL_VERSION);
+
+  const GLubyte *version = glGetString(GL_VERSION);
   cout << "Driver OpenGL : " << version << endl;
-  
 
   //==================================================
   //================= Initialisation =================
   //==================================================
-  
-  cout << "Initialisations..." << endl;
 
+  cout << "Initialisations..." << endl;
 
   // Definition de la couleur du fond
   glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -85,23 +86,20 @@ int main() {
 
   //-------------------------------------------------
   // Initialisation du shader programm
-    
+
   // Compilation du shader programm
-  GLuint programID = LoadShaders( "../shader/vertex.glsl", "../shader/fragment.glsl" );
+  GLuint programID = LoadShaders("../shader/vertex.glsl", "../shader/fragment.glsl");
   cout << "programID = " << programID << endl;
 
-  
   Mesh m;
-  create_sphere(&m);
-  // create_cube(&m);
+  //create_sphere(&m);
+  create_cube(&m);
 
-
-  
   // Creation d'un VAO (c'est l'objet qui encapsule les VBOs et qu'on va manipuler)
   GLuint vaoID;
-  glGenVertexArrays(1,&vaoID); 
+  glGenVertexArrays(1, &vaoID);
   glBindVertexArray(vaoID); // rendre ce VAO actif
-    
+
   //==================================================
   // Done : Creation d'un buffer (VBO) pour les positions des sommets
   // avec vertexBufferID pour identifiant
@@ -119,11 +117,10 @@ int main() {
 
   // Obtention de l'ID de l'attribut "in_position" dans programID
   GLuint vertexPositionID = glGetAttribLocation(programID, "in_position");
-  
-  // On autorise et indique a OpenGL comment lire les donnees
-  glVertexAttribPointer(vertexPositionID,3,GL_FLOAT,GL_FALSE,0,(void*)0);
-  glEnableVertexAttribArray(vertexPositionID);
 
+  // On autorise et indique a OpenGL comment lire les donnees
+  glVertexAttribPointer(vertexPositionID, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+  glEnableVertexAttribArray(vertexPositionID);
 
   //==================================================
   // Done : Creation d'un buffer (VBO) pour les normales des sommets
@@ -142,9 +139,9 @@ int main() {
 
   // Obtention de l'ID de l'attribut "in_position" dans programID
   GLuint vertexNormalID = glGetAttribLocation(programID, "in_normal");
-  
+
   // On autorise et indique a OpenGL comment lire les donnees
-  glVertexAttribPointer(vertexNormalID,3,GL_FLOAT,GL_TRUE,0,(void*)0);
+  glVertexAttribPointer(vertexNormalID, 3, GL_FLOAT, GL_TRUE, 0, (void *)0);
   glEnableVertexAttribArray(vertexNormalID);
 
   //==================================================
@@ -164,11 +161,10 @@ int main() {
 
   // Obtention de l'ID de l'attribut "in_position" dans programID
   GLuint vertexTexcoordID = glGetAttribLocation(programID, "in_texcoord");
-  
-  // On autorise et indique a OpenGL comment lire les donnees
-  glVertexAttribPointer(vertexTexcoordID,2,GL_FLOAT,GL_FALSE,0,(void*)0);
-  glEnableVertexAttribArray(vertexTexcoordID);
 
+  // On autorise et indique a OpenGL comment lire les donnees
+  glVertexAttribPointer(vertexTexcoordID, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
+  glEnableVertexAttribArray(vertexTexcoordID);
 
   //==================================================
   // Creation d'un nouveau buffer pour les indices des triangles (topologie)
@@ -184,38 +180,37 @@ int main() {
 
   glBindVertexArray(0); // Désactiver le VAO
 
-
   //==================================================
   // Matrices de transformation
   //==================================================
   mat4 projection_matrix = perspective(45.0f, WIDTH / HEIGHT, 0.1f, 100.0f);
   mat4 view_matrix = lookAt(vec3(1.0, 2.0, 1.0), vec3(0.0), vec3(0.0, 0.0, 1.0));
   mat4 model_matrix = scale(mat4(1.0f), vec3(0.5));
-  
+
   GLuint PmatrixID = glGetUniformLocation(programID, "ProjectionMatrix");
   cout << "PmatrixID = " << PmatrixID << endl;
-  
+
   GLuint VmatrixID = glGetUniformLocation(programID, "ViewMatrix");
   cout << "VmatrixID = " << VmatrixID << endl;
-  
+
   GLuint MmatrixID = glGetUniformLocation(programID, "ModelMatrix");
   cout << "MmatrixID = " << MmatrixID << endl;
-
-
 
   //==================================================
   /* ---------------- Création de la texture ---------------- */
   // Charger l'image
   QImage img("../textures/earth_HD.jpg");
   // Vérifier que l’image est bien chargée
-  if(img.isNull()) {
-    std::cerr << "Error Loading Texture !" << std::endl; exit(EXIT_FAILURE);
+  if (img.isNull())
+  {
+    std::cerr << "Error Loading Texture !" << std::endl;
+    exit(EXIT_FAILURE);
   }
   img = QGLWidget::convertToGLFormat(img);
   // Déclarer un identifiant
   GLuint textureID;
   // Allouer la texture sur le GPU
-  glGenTextures(1, &textureID); 
+  glGenTextures(1, &textureID);
   // La définir comme texture courante
   glBindTexture(GL_TEXTURE_2D, textureID);
   // --- Définir des paramètres de filtre ---
@@ -223,18 +218,17 @@ int main() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  // Transmettre l'image au GPU : 
+  // Transmettre l'image au GPU :
   glTexImage2D(GL_TEXTURE_2D, 0,
-    GL_RGBA32F,
-    img.width(),
-    img.height(), 0,
-    GL_RGBA, GL_UNSIGNED_BYTE,
-    (const GLvoid*) img.bits());
-  GLuint texSamplerID = glGetUniformLocation( programID, "texSampler" );
+               GL_RGBA32F,
+               img.width(),
+               img.height(), 0,
+               GL_RGBA, GL_UNSIGNED_BYTE,
+               (const GLvoid *)img.bits());
+  GLuint texSamplerID = glGetUniformLocation(programID, "texSampler");
 
-  // TODO : recuperer l'identifiant de "texSampler" dans le fragment shader 
+  // TODO : recuperer l'identifiant de "texSampler" dans le fragment shader
   //==================================================
-
 
   //==================================================
   //=========== Debut des choses serieuses ===========
@@ -246,28 +240,27 @@ int main() {
   double prec_time = init_time;
   double cur_time = init_time;
   double speed = 1.0;
-    
+
   char title[100];
   // Boucle de dessin
-  do{
+  do
+  {
     // Nettoyage de la zone de dessin (couleurs+profondeurs)
-    int w,h;
-    glfwGetWindowSize( myWindow, &w, &h);
+    int w, h;
+    glfwGetWindowSize(myWindow, &w, &h);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     //==================================================
     //============= Calcul du Point de Vue =============
     //==================================================
-      
+
     prec_time = cur_time;
     cur_time = glfwGetTime() - init_time;
     double delta_time = cur_time - prec_time;
-    sprintf(title,"SI_INFO4 - %2.0f FPS",1.0/ delta_time);
-    glfwSetWindowTitle( myWindow, title);
+    sprintf(title, "SI_INFO4 - %2.0f FPS", 1.0 / delta_time);
+    glfwSetWindowTitle(myWindow, title);
 
-    view_control( myWindow, view_matrix, speed * delta_time);
-
+    view_control(myWindow, view_matrix, speed * delta_time);
 
     //==================================================
     //===================== Dessin =====================
@@ -282,45 +275,41 @@ int main() {
     glUniformMatrix4fv(MmatrixID, 1, GL_FALSE, value_ptr(model_matrix));
 
     //==================================================
-    // TODO : envoi de la texture au shader 
-    // Note: la texture est déjà sur GPU, il suffit de lier la texture a une unité, puis de spécifier cette unité au shader 
+    // TODO : envoi de la texture au shader
+    // Note: la texture est déjà sur GPU, il suffit de lier la texture a une unité, puis de spécifier cette unité au shader
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
     glUniform1i(texSamplerID, 0);
     //==================================================
-    
-    
-    // set viewport, enable VAO and draw 
+
+    // set viewport, enable VAO and draw
     // glViewport(0,0,w,h); // mis en commentaire car cause des problèmes sur ma machine (contact par e-mail à ce propos)
     glBindVertexArray(vaoID);
-    glDrawElements(GL_TRIANGLES,m.faces.size(),GL_UNSIGNED_INT,(void*)0);
+    glDrawElements(GL_TRIANGLES, m.faces.size(), GL_UNSIGNED_INT, (void *)0);
     glBindVertexArray(0);
 
     // Echange des zones de dessin buffers
-    glfwSwapBuffers( myWindow);
+    glfwSwapBuffers(myWindow);
 
     // Traitement des évènements fenêtre, clavier, etc...
     glfwPollEvents();
-      
+
     cout << "Temps ecoule (s) : " << cur_time << "\r";
     cout.flush();
-    
-    
-  } // Execution de la boucle...
-  while( glfwGetKey( myWindow, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&  // ... jusqu'a appui sur la touche ESC
-	 (!glfwWindowShouldClose( myWindow))        );  // ... ou fermeture de la fenetre
+
+  }                                                             // Execution de la boucle...
+  while (glfwGetKey(myWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS && // ... jusqu'a appui sur la touche ESC
+         (!glfwWindowShouldClose(myWindow)));                   // ... ou fermeture de la fenetre
 
   cout << endl;
 
   // Ferme GLFW et OpenGL
   glfwTerminate();
-    
-    
-    
+
   //==================================================
   //============== Nettoyage la memoire ==============
   //==================================================
-    
+
   // Liberation des buffers
   glDeleteBuffers(1, &vaoID);
   glDeleteBuffers(1, &vertexBufferID);
@@ -332,243 +321,248 @@ int main() {
   glDeleteTextures(1, &textureID);
 
   cout << "Fin du programme..." << endl;
-    
-    
+
   return EXIT_SUCCESS;
 }
 
-
-void create_cube(Mesh* output)
+void create_cube(Mesh *output)
 {
 
-    output->vertices.push_back(vec3(-1, -1, -1));
-    output->vertices.push_back(vec3( 1, -1, -1));
-    output->vertices.push_back(vec3( 1,  1, -1));
-    output->vertices.push_back(vec3(-1,  1, -1));
-    
-    output->vertices.push_back(vec3(-1, -1, -1));
-    output->vertices.push_back(vec3(-1,  1, -1));
-    output->vertices.push_back(vec3(-1,  1,  1));
-    output->vertices.push_back(vec3(-1, -1,  1));
-    
-    output->vertices.push_back(vec3(-1, -1, -1));
-    output->vertices.push_back(vec3(-1, -1,  1));
-    output->vertices.push_back(vec3( 1, -1,  1));
-    output->vertices.push_back(vec3( 1, -1, -1));
-    
-    output->vertices.push_back(vec3( 1,  1,  1));
-    output->vertices.push_back(vec3(-1,  1,  1));
-    output->vertices.push_back(vec3(-1, -1,  1));
-    output->vertices.push_back(vec3( 1, -1,  1));
-    
-    output->vertices.push_back(vec3( 1,  1,  1));
-    output->vertices.push_back(vec3( 1, -1,  1));
-    output->vertices.push_back(vec3( 1, -1, -1));
-    output->vertices.push_back(vec3( 1,  1, -1));
-    
-    output->vertices.push_back(vec3( 1,  1,  1));
-    output->vertices.push_back(vec3( 1,  1, -1));
-    output->vertices.push_back(vec3(-1,  1, -1));
-    output->vertices.push_back(vec3(-1,  1,  1));
-                        
-    output->normals.push_back(vec3(0, 0, -1));
-    output->normals.push_back(vec3(0, 0, -1));
-    output->normals.push_back(vec3(0, 0, -1));
-    output->normals.push_back(vec3(0, 0, -1));
-    
-    output->normals.push_back(vec3(-1, 0, 0));
-    output->normals.push_back(vec3(-1, 0, 0));
-    output->normals.push_back(vec3(-1, 0, 0));
-    output->normals.push_back(vec3(-1, 0, 0));
-    
-    output->normals.push_back(vec3(0, -1, 0));
-    output->normals.push_back(vec3(0, -1, 0));
-    output->normals.push_back(vec3(0, -1, 0));
-    output->normals.push_back(vec3(0, -1, 0));
-    
-    output->normals.push_back(vec3(0, 0,  1));
-    output->normals.push_back(vec3(0, 0,  1));
-    output->normals.push_back(vec3(0, 0,  1));
-    output->normals.push_back(vec3(0, 0,  1));
-    
-    output->normals.push_back(vec3( 1, 0, 0));
-    output->normals.push_back(vec3( 1, 0, 0));
-    output->normals.push_back(vec3( 1, 0, 0));
-    output->normals.push_back(vec3( 1, 0, 0));
-    
-    output->normals.push_back(vec3(0,  1, 0));
-    output->normals.push_back(vec3(0,  1, 0));
-    output->normals.push_back(vec3(0,  1, 0));
-    output->normals.push_back(vec3(0,  1, 0));
-                        
-    // TODO : definir les coordonnées de texture des sommets du cube
+  output->vertices.push_back(vec3(-1, -1, -1));
+  output->vertices.push_back(vec3(1, -1, -1));
+  output->vertices.push_back(vec3(1, 1, -1));
+  output->vertices.push_back(vec3(-1, 1, -1));
 
+  output->vertices.push_back(vec3(-1, -1, -1));
+  output->vertices.push_back(vec3(-1, 1, -1));
+  output->vertices.push_back(vec3(-1, 1, 1));
+  output->vertices.push_back(vec3(-1, -1, 1));
 
+  output->vertices.push_back(vec3(-1, -1, -1));
+  output->vertices.push_back(vec3(-1, -1, 1));
+  output->vertices.push_back(vec3(1, -1, 1));
+  output->vertices.push_back(vec3(1, -1, -1));
 
-    output->faces.push_back(0);
-    output->faces.push_back(2);
-    output->faces.push_back(1);
+  output->vertices.push_back(vec3(1, 1, 1));
+  output->vertices.push_back(vec3(-1, 1, 1));
+  output->vertices.push_back(vec3(-1, -1, 1));
+  output->vertices.push_back(vec3(1, -1, 1));
 
-    output->faces.push_back(0);
-    output->faces.push_back(3);
-    output->faces.push_back(2);
+  output->vertices.push_back(vec3(1, 1, 1));
+  output->vertices.push_back(vec3(1, -1, 1));
+  output->vertices.push_back(vec3(1, -1, -1));
+  output->vertices.push_back(vec3(1, 1, -1));
 
+  output->vertices.push_back(vec3(1, 1, 1));
+  output->vertices.push_back(vec3(1, 1, -1));
+  output->vertices.push_back(vec3(-1, 1, -1));
+  output->vertices.push_back(vec3(-1, 1, 1));
 
-    output->faces.push_back(4);
-    output->faces.push_back(6);
-    output->faces.push_back(5);
+  output->normals.push_back(vec3(0, 0, -1));
+  output->normals.push_back(vec3(0, 0, -1));
+  output->normals.push_back(vec3(0, 0, -1));
+  output->normals.push_back(vec3(0, 0, -1));
 
-    output->faces.push_back(4);
-    output->faces.push_back(7);
-    output->faces.push_back(6);
+  output->normals.push_back(vec3(-1, 0, 0));
+  output->normals.push_back(vec3(-1, 0, 0));
+  output->normals.push_back(vec3(-1, 0, 0));
+  output->normals.push_back(vec3(-1, 0, 0));
 
+  output->normals.push_back(vec3(0, -1, 0));
+  output->normals.push_back(vec3(0, -1, 0));
+  output->normals.push_back(vec3(0, -1, 0));
+  output->normals.push_back(vec3(0, -1, 0));
 
-    output->faces.push_back(8);
-    output->faces.push_back(10);
-    output->faces.push_back(9);
+  output->normals.push_back(vec3(0, 0, 1));
+  output->normals.push_back(vec3(0, 0, 1));
+  output->normals.push_back(vec3(0, 0, 1));
+  output->normals.push_back(vec3(0, 0, 1));
 
-    output->faces.push_back(8);
-    output->faces.push_back(11);
-    output->faces.push_back(10);
+  output->normals.push_back(vec3(1, 0, 0));
+  output->normals.push_back(vec3(1, 0, 0));
+  output->normals.push_back(vec3(1, 0, 0));
+  output->normals.push_back(vec3(1, 0, 0));
 
+  output->normals.push_back(vec3(0, 1, 0));
+  output->normals.push_back(vec3(0, 1, 0));
+  output->normals.push_back(vec3(0, 1, 0));
+  output->normals.push_back(vec3(0, 1, 0));
 
-    output->faces.push_back(12);
-    output->faces.push_back(13);
-    output->faces.push_back(14);
+  // TODO : definir les coordonnées de texture des sommets du cube
 
-    output->faces.push_back(12);
-    output->faces.push_back(14);
-    output->faces.push_back(15);
+  output->faces.push_back(0);
+  output->faces.push_back(2);
+  output->faces.push_back(1);
 
+  output->faces.push_back(0);
+  output->faces.push_back(3);
+  output->faces.push_back(2);
 
-    output->faces.push_back(16);
-    output->faces.push_back(17);
-    output->faces.push_back(18);
+  output->faces.push_back(4);
+  output->faces.push_back(6);
+  output->faces.push_back(5);
 
-    output->faces.push_back(16);
-    output->faces.push_back(18);
-    output->faces.push_back(19);
+  output->faces.push_back(4);
+  output->faces.push_back(7);
+  output->faces.push_back(6);
 
+  output->faces.push_back(8);
+  output->faces.push_back(10);
+  output->faces.push_back(9);
 
-    output->faces.push_back(20);
-    output->faces.push_back(21);
-    output->faces.push_back(22);
+  output->faces.push_back(8);
+  output->faces.push_back(11);
+  output->faces.push_back(10);
 
-    output->faces.push_back(20);
-    output->faces.push_back(22);
-    output->faces.push_back(23);                            
+  output->faces.push_back(12);
+  output->faces.push_back(13);
+  output->faces.push_back(14);
+
+  output->faces.push_back(12);
+  output->faces.push_back(14);
+  output->faces.push_back(15);
+
+  output->faces.push_back(16);
+  output->faces.push_back(17);
+  output->faces.push_back(18);
+
+  output->faces.push_back(16);
+  output->faces.push_back(18);
+  output->faces.push_back(19);
+
+  output->faces.push_back(20);
+  output->faces.push_back(21);
+  output->faces.push_back(22);
+
+  output->faces.push_back(20);
+  output->faces.push_back(22);
+  output->faces.push_back(23);
+
 }
 
-
-
-
-void create_sphere(Mesh* output) {
+void create_sphere(Mesh *output)
+{
   int N = 100;
   int Nu = 2 * N;
   int Nv = N;
-  
-  for(int i = 0; i < Nu; i++) {
-    float u = float(i) / (Nu-1);
+
+  for (int i = 0; i < Nu; i++)
+  {
+    float u = float(i) / (Nu - 1);
     float phi = u * M_PI * 2;
-    
-    for(int j = 0; j < Nv; j++) {
-      float v = float(j) / (Nv-1);
+
+    for (int j = 0; j < Nv; j++)
+    {
+      float v = float(j) / (Nv - 1);
       float psi = v * M_PI;
-      
-      vec3 p(cos(phi)*sin(psi), sin(phi)*sin(psi), cos(psi));
+
+      vec3 p(cos(phi) * sin(psi), sin(phi) * sin(psi), cos(psi));
       output->vertices.push_back(p);
-      
+
       output->normals.push_back(p);
-      
+
       vec2 t(u, v);
       output->texCoord.push_back(t);
     }
   }
-  
-  
+
   vector<unsigned int> faces;
-  for(int i = 0; i < Nu; i++) {
-    for(int j = 0; j < Nv - 1; j++) {
-      output->faces.push_back( i * Nv + j);
-      output->faces.push_back((i+1)%Nu * Nv + j);
-      output->faces.push_back( i * Nv + j+1);
-      
-      output->faces.push_back( i * Nv + j+1);
-      output->faces.push_back((i+1)%Nu * Nv + j);
-      output->faces.push_back((i+1)%Nu * Nv + j + 1);
+  for (int i = 0; i < Nu; i++)
+  {
+    for (int j = 0; j < Nv - 1; j++)
+    {
+      output->faces.push_back(i * Nv + j);
+      output->faces.push_back((i + 1) % Nu * Nv + j);
+      output->faces.push_back(i * Nv + j + 1);
+
+      output->faces.push_back(i * Nv + j + 1);
+      output->faces.push_back((i + 1) % Nu * Nv + j);
+      output->faces.push_back((i + 1) % Nu * Nv + j + 1);
     }
   }
 }
 
-
-void view_control(   GLFWwindow* myWindow, mat4& view_matrix, float dx) {
-  if (glfwGetKey( myWindow, GLFW_KEY_UP ) == GLFW_PRESS) {
+void view_control(GLFWwindow *myWindow, mat4 &view_matrix, float dx)
+{
+  if (glfwGetKey(myWindow, GLFW_KEY_UP) == GLFW_PRESS)
+  {
     vec4 axis = vec4(1.0, 0.0, 0.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, -dx, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_DOWN ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+  {
     vec4 axis = vec4(1.0, 0.0, 0.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, +dx, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 1.0, 0.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, dx, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 1.0, 0.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, -dx, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_PAGE_UP ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 0.0, 1.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, -dx, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_PAGE_DOWN ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 0.0, 1.0, 0.0);
     axis = inverse(view_matrix) * axis;
     view_matrix = rotate(view_matrix, +dx, vec3(axis));
   }
-  
-  if (glfwGetKey( myWindow, GLFW_KEY_Z ) == GLFW_PRESS) {
+
+  if (glfwGetKey(myWindow, GLFW_KEY_Z) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 0.0, 1.0, 0.0) * dx;
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_S ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_S) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 0.0, 1.0, 0.0) * (-dx);
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_Q) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_Q) == GLFW_PRESS)
+  {
     vec4 axis = vec4(-1.0, 0.0, 0.0, 0.0) * dx;
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_D ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_D) == GLFW_PRESS)
+  {
     vec4 axis = vec4(-1.0, 0.0, 0.0, 0.0) * (-dx);
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_A ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_A) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 1.0, 0.0, 0.0) * dx;
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
   }
 
-  if (glfwGetKey( myWindow, GLFW_KEY_E ) == GLFW_PRESS) {
+  if (glfwGetKey(myWindow, GLFW_KEY_E) == GLFW_PRESS)
+  {
     vec4 axis = vec4(0.0, 1.0, 0.0, 0.0) * (-dx);
     axis = inverse(view_matrix) * axis;
     view_matrix = translate(view_matrix, vec3(axis));
