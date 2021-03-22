@@ -199,7 +199,7 @@ int main()
   //==================================================
   /* ---------------- Création de la texture ---------------- */
   // Charger l'image
-  QImage img("../textures/earth_HD.jpg");
+  QImage img("../textures/crate.jpg");
   // Vérifier que l’image est bien chargée
   if (img.isNull())
   {
@@ -438,6 +438,36 @@ void create_cube(Mesh *output)
   output->faces.push_back(22);
   output->faces.push_back(23);
 
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+
+  output->texCoord.push_back(vec2(0.0, 0.0));
+  output->texCoord.push_back(vec2(1, 0));
+  output->texCoord.push_back(vec2(1, 1));
+  output->texCoord.push_back(vec2(0.0, 1.0));
+  
 }
 
 void create_sphere(Mesh *output)
