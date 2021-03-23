@@ -199,7 +199,7 @@ int main()
   //==================================================
   /* ---------------- Création de la texture ---------------- */
   // Charger l'image
-  QImage img("../textures/crate.jpg");
+  QImage img("../textures/dice_texture_uv_map.jpg");
   // Vérifier que l’image est bien chargée
   if (img.isNull())
   {
@@ -438,35 +438,44 @@ void create_cube(Mesh *output)
   output->faces.push_back(22);
   output->faces.push_back(23);
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* ******* Texture dé ******* */
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* Face '4' */
+  output->texCoord.push_back(vec2(0.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(1.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(1.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(0.0/4.0, 1.0/3.0));
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* Face '2' */
+  output->texCoord.push_back(vec2(1.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(2.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(2.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(1.0/4.0, 1.0/3.0));
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* Face '3' */
+  output->texCoord.push_back(vec2(2.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(2.0/4.0, 1.0/3.0));
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* Face '5' */
+  output->texCoord.push_back(vec2(3.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(4.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(4.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 1.0/3.0));
 
-  output->texCoord.push_back(vec2(0.0, 0.0));
-  output->texCoord.push_back(vec2(1, 0));
-  output->texCoord.push_back(vec2(1, 1));
-  output->texCoord.push_back(vec2(0.0, 1.0));
+  /* Face '1' */
+  output->texCoord.push_back(vec2(2.0/4.0, 3.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 3.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 2.0/3.0));
+  output->texCoord.push_back(vec2(2.0/4.0, 2.0/3.0));
+
+  /* Face '6' */
+  output->texCoord.push_back(vec2(2.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 1.0/3.0));
+  output->texCoord.push_back(vec2(3.0/4.0, 0.0/3.0));
+  output->texCoord.push_back(vec2(2.0/4.0, 0.0/3.0));
+
   
 }
 
